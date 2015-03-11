@@ -11,5 +11,5 @@ Download the current FastLED library from: [github.com/FastLED/FastLED](https://
 
 
 
--Marc Miller
+-Marc Miller, 
 Febuary 2015
