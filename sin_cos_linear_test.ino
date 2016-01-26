@@ -6,6 +6,8 @@
 //     Pixels 2 & 3 use cos8(0-255)
 //     Pixels 4 & 5 with linear 0-255
 //     Pixels 7 lights white at the loop ends as an indicator.
+//
+// Marc Miller, 2015
 /*********************************************************************/
 
 #include <Arduino.h>
