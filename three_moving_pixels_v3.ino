@@ -2,6 +2,7 @@
 // Three moving pixels example
 //     Uses modulo, %, to make pixel position "loop" around and
 //     stay in valid pixel range.
+//
 // Marc Miller, Feb 2015.  Updated Jan 2016.
 //***************************************************************
 
