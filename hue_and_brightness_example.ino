@@ -7,6 +7,8 @@
 // Every time the function checkKnobs() is called it will read
 // the current value of both potentiometers and map those values
 // to a hue and master brightness for FastLED.
+//
+// Marc Miller, 2015
 //===============================================================
 
 #include "FastLED.h"
