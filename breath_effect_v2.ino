@@ -1,5 +1,6 @@
 //***************************************************************
 // Breath effect  (pulse from hueA to hueB)
+// Marc Miller, 2015
 //***************************************************************
 #include "FastLED.h"
 #define LED_TYPE NEOPIXEL
