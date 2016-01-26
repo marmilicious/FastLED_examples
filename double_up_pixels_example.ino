@@ -1,6 +1,8 @@
 //***************************************************************
-// DMX double pixels up
+// double up pixels for DMX example
 // Once running, open the serial monitor to see what's happening.
+//
+// Marc Miller, 2015
 //***************************************************************
 #include "FastLED.h"
 #define LED_TYPE NEOPIXEL
