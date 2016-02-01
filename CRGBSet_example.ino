@@ -1,3 +1,5 @@
+// Marc Miller, Jan 2016
+
 #include "FastLED.h"
 #define NUM_LEDS 32
 
