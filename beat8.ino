@@ -1,7 +1,8 @@
 //***************************************************************
 // beat8 example.  Moves pixel position based on beat8.
 //
-// Marc Miller, Jan 2016
+// -Marc Miller, Jan 2016
+// Updated Feb 2016 - made move speed and fade rate variables.
 //***************************************************************
 
 #include "FastLED.h"
@@ -13,8 +14,9 @@
 #define BRIGHTNESS 50
 CRGB leds[NUM_LEDS];
 
-uint8_t gHue = 0;  // Hue used to cycle through rainbow.
-uint16_t pos;  // Pixel position on LED strip.
+uint8_t gHue = 0;  // Used to cycle through rainbow.
+uint8_t moveSpeed = 6;  // Higher value moves pixel faster.
+uint8_t fadeRate = 80;  // Use lower value to give a fading tail.
 
 
 //---------------------------------------------------------------
@@ -44,9 +46,9 @@ void loop()
 void beat8_tail()
 {
   EVERY_N_MILLISECONDS( 5 ) {
-    fadeToBlackBy( leds, NUM_LEDS, 4);  // Fade out pixels.
+    fadeToBlackBy( leds, NUM_LEDS, fadeRate);  // Fade out pixels.
   }
-  pos = beat8(8) % NUM_LEDS;  // modulo the position to be within NUM_LEDS
+  uint16_t pos = beat8(moveSpeed) % NUM_LEDS;  // modulo the position to be within NUM_LEDS
   leds[pos] = CHSV( gHue, 200, 255);
   //Serial.print("pos: "); Serial.println(pos);
 }
