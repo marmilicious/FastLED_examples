@@ -60,9 +60,9 @@ void loop() {  // START MAIN LOOP
     positionBlue = (positionBlue + delta + NUM_LEDS) % NUM_LEDS;
 
     // Print out position values to see what's happening.
-    Serial.print("pos R = "); Serial.print(positionRed);
-    Serial.print("\t  pos W = "); Serial.print(positionWhite);
-    Serial.print("\t  pos B = "); Serial.println(positionBlue);
+    //Serial.print("pos R = "); Serial.print(positionRed);
+    //Serial.print("\t  pos W = "); Serial.print(positionWhite);
+    //Serial.print("\t  pos B = "); Serial.println(positionBlue);
   }
 
 } // END MAIN LOOP
