@@ -14,7 +14,7 @@
 #define NUM_LEDS 32
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
-#define BRIGHTNESS 8
+#define BRIGHTNESS 128
 
 uint16_t holdTime = 700;  // Milliseconds to hold position before advancing.
 uint8_t spacing = 4;      // Sets pixel spacing. [Use 2 or greater]
