@@ -58,6 +58,7 @@ void loop() {
   EVERY_N_SECONDS_I( timingObj, 20) {
     // This initally defaults to 20 seconds, but then will change the run
     // period to a new random number of seconds from 10 and 30 seconds.
+    // You can name "timingObj" whatever you want.
     timingObj.setPeriod( random8(10,31) );
     FastLED.clear();
     for (uint16_t i=0; i<NUM_LEDS*3; i++){
