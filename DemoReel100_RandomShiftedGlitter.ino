@@ -3,7 +3,7 @@
 //    white glitter.  One picks random colors, the other slightly
 //    shifts the hue of whatever pixel is randomly selected.
 //
-//  These can be added to Mark Kreigman's DemoReel100 example as
+//  These can be added to Mark Kriegsman's DemoReel100 example as
 //    additional patterns to run.  Copy lines 25 and 26 as well
 //    as the two patterns below to your DemoReel100 program.
 //
