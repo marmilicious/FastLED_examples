@@ -4,9 +4,9 @@
 //
 //  For this example the number segments are wired in the following layout:
 //  http://imgur.com/cgabMfK
-//  It also assumes that each segment has the same number of pixels.  This is
-//  a variable below which can easily be changed.  This example uses 5 pixels
-//  per segment.
+//  It also assumes that each segment has the same number of pixels.  There is
+//  a variable below which allows the number of pixels per segment to be changed.
+//  This example uses 5 Pixels Per Segment (pps).
 //
 //
 //  Marc Miller, Oct 2016
