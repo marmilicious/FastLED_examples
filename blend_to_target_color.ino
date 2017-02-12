@@ -14,7 +14,7 @@
 #define LED_TYPE    LPD8806
 #define COLOR_ORDER GRB
 #define NUM_LEDS    32
-#define BRIGHTNESS  20
+#define BRIGHTNESS  100
 CRGB leds[NUM_LEDS];
 
 uint8_t blendRate = 50;  // How fast to blend.  Higher is slower.  [milliseconds]
@@ -22,7 +22,6 @@ uint8_t blendRate = 50;  // How fast to blend.  Higher is slower.  [milliseconds
 CHSV colorStart = CHSV(96,255,255);  // starting color
 CHSV colorTarget = CHSV(192,255,255);  // target color
 CHSV colorCurrent = colorStart;
-uint8_t k;
 
 
 //---------------------------------------------------------------
@@ -39,16 +38,15 @@ void setup() {
 //---------------------------------------------------------------
 void loop()
 {
-  
- // Pick new random hue whenever target is reached
-  if ( colorCurrent.h == colorTarget.h ) {
-    colorStart = colorCurrent;
-    colorTarget = CHSV(random8(),255,255);  // new target to transition toward
-    k = 0;  // reset k value
-    Serial.print("New colorTarget:\t\t\t"); Serial.println(colorTarget.h);
-  }
-
   EVERY_N_MILLISECONDS(blendRate){
+    static uint8_t k;
+    if ( colorCurrent.h == colorTarget.h ) {  // Check if target has been reached
+      colorStart = colorCurrent;
+      colorTarget = CHSV(random8(),255,255);  // new target to transition toward
+      k = 0;  // reset k value
+      Serial.print("New colorTarget:\t\t\t"); Serial.println(colorTarget.h);
+    }
+
     colorCurrent = blend(colorStart, colorTarget, k, SHORTEST_HUES);
     fill_solid( leds, NUM_LEDS, colorCurrent );
     leds[0] = colorTarget;  // set first pixel to always show target color
