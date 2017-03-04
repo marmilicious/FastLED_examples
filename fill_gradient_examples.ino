@@ -4,7 +4,7 @@
 // Un-comment examples one at a time to experiment.
 //
 // Note1:
-//   Will filling all the way to the end always use NUM_LEDS-1.
+//   When filling all the way to the end always use NUM_LEDS-1.
 //   (If you don't subtract 1 then it will break things.)
 //
 // Note2:
