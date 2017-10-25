@@ -1,5 +1,5 @@
 //***************************************************************
-// Example to turn some pixels virtualy "off" with a button.
+// Example to turn some pixels virtually "off" with a button.
 // Pixels are still powered and reciving data, but are simply
 // set to display black when "off".
 //
