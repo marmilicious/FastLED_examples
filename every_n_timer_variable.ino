@@ -3,7 +3,7 @@
 // Using EVERY_N with a timer check to always run "Event B" at
 // a specific time after "Event A".
 //
-// Also, an example of using EVEN_N with a random variable time.
+// Also, an example of using EVERY_N with a random variable time.
 //
 // Marc Miller,  May 2016
 //---------------------------------------------------------------
@@ -48,7 +48,7 @@ void loop() {
     if (triggerTimer) {  // Check if triggerTimer time reached
       // do Event B stuff
       for (uint8_t i=0; i<NUM_LEDS/2; i++){
-        leds[random8(NUM_LEDS+1)] = CRGB::Red;
+        leds[random8(NUM_LEDS)] = CRGB::Red;
       }
       counterTriggered = 0;  // Set back to False
     }
@@ -62,8 +62,8 @@ void loop() {
     timingObj.setPeriod( random8(10,31) );
     FastLED.clear();
     for (uint16_t i=0; i<NUM_LEDS*3; i++){
-      leds[random8(NUM_LEDS+1)] = CRGB::Black;
-      leds[random8(NUM_LEDS+1)] = CHSV(random8(), random8(140,255), random8(50,255));
+      leds[random8(NUM_LEDS)] = CRGB::Black;
+      leds[random8(NUM_LEDS)] = CHSV(random8(), random8(140,255), random8(50,255));
       FastLED.show();
       delay(random8(20,80));
     }
