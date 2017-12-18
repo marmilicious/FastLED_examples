@@ -3,7 +3,7 @@
 // Original code by Richard Bailey,  Feb. 2017
 //
 // Modified to allow a few other options (which might be
-// useful for Chrismas!)
+// useful for Christmas!)
 // You'll probably need to adjust stuff for longer strips.  I only
 // tested with a tiny 32 pixel setup.
 //
