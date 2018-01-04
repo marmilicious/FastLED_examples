@@ -1,4 +1,11 @@
 //***************************************************************
+//
+//  ***NOTE***:
+//  There is an updated version of this now which as the option
+//  to go from center outward or from ends inward toward center.
+//  https://github.com/marmilicious/FastLED_examples/blob/master/mirrored_Fire2012.ino
+//
+//
 // Example of running FastLED's Fire2012 example on the first
 // half of a strip, and mirroring that to the the second half.
 //
