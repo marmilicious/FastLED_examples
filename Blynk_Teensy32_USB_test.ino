@@ -1,28 +1,42 @@
 //***************************************************************
 //  Blynk test with Teensy 3.2 and USB connection.
 //
-//  Three widgets were used to send data from the Blynk app to
-//  the MCU:
+//  Four widgets were used to send data from the Blynk app:
 //  - Button (turns display on/off)
 //  - Slider (controls brightness)
 //  - zeRGBa (RGB data sets pixel color)
+//  - Menu   (selects a pattern)
+//
+//  Looks like this on my phone:
+//  https://i.imgur.com/6x9AvOQ.png
 //
 //  Marc Miller, Oct 2017
+//       update: Feb 2018 - added a simple Menu example
 //***************************************************************
 
 
-/***********************************************************
+/*************************************************************
   Download latest Blynk library here:
     https://github.com/blynkkk/blynk-library/releases/latest
-  Downloads, docs, tutorials: http://www.blynk.cc
-  USB HOWTO: http://tiny.cc/BlynkUSB
- ***********************************************************/
+  Blynk downloads, docs, tutorials, etc:
+    http://www.blynk.cc
+  Blynk USB HOWTO info:
+    http://tiny.cc/BlynkUSB
+ *************************************************************/
 
 
 //---------------------------------------------------------------
 #include "FastLED.h"  //include FastLED library
-#define NUM_LEDS 35   // Number of pixels in strip
+#define NUM_LEDS 32   // Number of pixels in strip
 CRGB leds[NUM_LEDS];
+
+void solid();
+void rainbow();
+void juggle();
+void sinelon();
+typedef void (*SimplePatternList[])();
+SimplePatternList gPatterns = { solid, rainbow, juggle, sinelon };
+uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
 
 //---------------------------------------------------------------
@@ -35,7 +49,7 @@ char auth[] = "put_your_token_number_here_inside_the_quotes";
 uint8_t sliderBrightness;  //output: V1, slider
 uint8_t zeRGBa[3];         //output: V2, zeRGBa data (set to "merge")
 boolean buttonA;           //output: V3, button (set as "switch")
-
+uint8_t pattern;           //output: V4, current pattern number
 
 BLYNK_WRITE(V1)  //slider value 0-255
 {
@@ -54,6 +68,28 @@ BLYNK_WRITE(V3)  //toggles pixel display On/Off, set as "switch"
   buttonA = param.asInt();  //value is either 0 or 1
 }
 
+BLYNK_WRITE(V4) {
+  switch (param.asInt()) {
+    case 1: {
+      pattern = 1;  //rainbow
+      break;
+    }
+    case 2: {
+      pattern = 2;  //juggle
+      break;
+    }
+    case 3: {
+      pattern = 3;  //sinelon  (color selected by zeRGBa picker)
+      break;
+    }
+    case 4: {
+      pattern = 0;  //solid  (color selected by zeRGBa picker)
+      break;
+    }
+    default:
+      pattern = 0;  //run if no pattern selected
+  }
+}
 
 //---------------------------------------------------------------
 void setup()
@@ -63,7 +99,7 @@ void setup()
   Serial.begin(9600);
   Blynk.begin(Serial, auth);
 
-  FastLED.addLeds<APA102,11,13,BGR,DATA_RATE_MHZ(12)>(leds,NUM_LEDS).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<LPD8806,11,13,GRB>(leds, NUM_LEDS);
 }
 
 
@@ -72,14 +108,54 @@ void loop()
 {
   Blynk.run();
 
-  if (buttonA == 1) {
-    fill_solid(leds, NUM_LEDS, CRGB(zeRGBa[0],zeRGBa[1],zeRGBa[2]) );
-  } else {
-    FastLED.clear();  //blank out all pixel data
-  }
-  
-  FastLED.setBrightness(sliderBrightness);
-  FastLED.show();
+  EVERY_N_MILLISECONDS(10) {
+    if (buttonA == 1) {  //strip is ON.
+      gPatterns[pattern]();
+
+    } else {  //strip is OFF
+      FastLED.clear();  //blank out all pixel data
+      
+    }
+    
+    FastLED.setBrightness(sliderBrightness);
+    FastLED.show();
+
+  }//end_EVERY_N
+
+  EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
+
+}//end_main_loop
+
+
+//---------------------------------------------------------------
+// Patterns
+//---------------------------------------------------------------
+void rainbow() 
+{
+  // FastLED's built-in rainbow generator
+  fill_rainbow( leds, NUM_LEDS, gHue, NUM_LEDS/8);
 }
 
+void juggle() {
+  // four colored dots, weaving in and out of sync with each other
+  fadeToBlackBy( leds, NUM_LEDS, 20);
+  byte dothue = 0;
+  for( int i = 0; i < 4; i++) {
+    leds[beatsin16( i+5, 0, NUM_LEDS-1 )] |= CHSV(dothue, 200, 255);
+    dothue += 32;
+  }
+}
 
+void sinelon()
+{
+  // a colored dot sweeping back and forth, with fading trails
+  fadeToBlackBy( leds, NUM_LEDS, 12);
+  int pos = beatsin16( 13, 0, NUM_LEDS-1 );
+  leds[pos] += CRGB(zeRGBa[0],zeRGBa[1],zeRGBa[2]);
+}
+
+void solid()
+{
+  // fill entire strip with a solid color
+  fill_solid(leds, NUM_LEDS, CRGB(zeRGBa[0],zeRGBa[1],zeRGBa[2]) );
+}
