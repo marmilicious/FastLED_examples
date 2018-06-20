@@ -5,7 +5,7 @@
 //  i starts at 0 and is incremented by +1 up to NUM_LEDS/spacing.
 //
 // Marc Miller, May 2016
-// Updated June 2017 - reordered some stuff and small bug fix.
+// Updated June 2018 - reordered some stuff and small bug fix.
 //***************************************************************
 
 #include "FastLED.h"
