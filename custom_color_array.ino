@@ -17,12 +17,13 @@ uint8_t colorPick;
 
 // Custom color array
 CRGB colorArray[] = {
-  colorArray[0] = CRGB::Red,
-  colorArray[1] = CRGB::Grey,
-  colorArray[2] = CRGB::Blue,
-  colorArray[3] = CRGB(0,255,0),
-  colorArray[4] = CHSV(195,255,255),
+  CRGB::Red,
+  CRGB::Grey,
+  CRGB::Blue,
+  CRGB(0,255,0),
+  CHSV(195,255,255),
 };
+
 
 
 //---------------------------------------------------------------
