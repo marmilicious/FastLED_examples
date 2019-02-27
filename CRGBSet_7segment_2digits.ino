@@ -6,10 +6,13 @@
 //  http://imgur.com/cgabMfK
 //  It also assumes that each segment has the same number of pixels.  There is
 //  a variable below which allows the number of pixels per segment to be changed.
+//
 //  This example uses 5 Pixels Per Segment (pps).
+//  5pps x 7segments x 2digits = 70 pixels total
 //
 //
 //  Marc Miller, Oct 2016
+//  (There is also a 3digit version of this sketch now, added Feb 2019.)
 //***************************************************************
 
 #include "FastLED.h"
