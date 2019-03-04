@@ -60,9 +60,9 @@ void loop() {
   // reset count if we have come to the end of the strip 
   if ((count * blockSize) >= NUM_LEDS) { count = 0; }
 
-  EVERY_N_SECONDS(5){
-    blockSize = random8(2,9);  // for fun, pick a new random block size
-  }
+  //EVERY_N_SECONDS(5){
+  //  blockSize = random8(2,9);  // for fun, pick a new random block size
+  //}
 
 }//end_main_loop
 
