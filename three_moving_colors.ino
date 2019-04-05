@@ -2,6 +2,7 @@
 // Three moving colors.
 //
 // Marc Miller,  Jan. 2019
+//  April 2019 - Updated to use EVERY_N instead of delay().
 //***************************************************************
 
 #include "FastLED.h"
