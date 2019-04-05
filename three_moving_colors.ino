@@ -17,7 +17,7 @@ int16_t positionRed = NUM_LEDS*2/3;  // Set initial start position of Red
 int16_t positionWhite = NUM_LEDS/3;  // Set initial start position of White
 int16_t positionBlue = 0;  // Set initial start position of Blue
 
-uint16_t holdTime = 120;  // Milliseconds to hold position before advancing
+#define holdTime 120  // Milliseconds to hold position before advancing
 int8_t delta = 1;  // 1 or -1.  Sets forward or backwards direction.
 
 
@@ -32,18 +32,22 @@ void setup() {
 
 //---------------------------------------------------------------
 void loop() {
-  //set position and color of pixels
-  leds[(positionRed + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Red;
-  leds[(positionWhite + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Grey;
-  leds[(positionBlue + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Blue;
 
-  FastLED.show();  //show the pixels
-  FastLED.delay(holdTime);  //delay for a bit.
- 
-  //advance position based on delta, and rollover if needed.
-  positionRed = ((positionRed + delta + NUM_LEDS) % NUM_LEDS);
-  positionWhite = ((positionWhite + delta + NUM_LEDS) % NUM_LEDS);
-  positionBlue = ((positionBlue + delta + NUM_LEDS) % NUM_LEDS);
+  EVERY_N_MILLISECONDS(holdTime) {
+
+    //set position and color of pixels
+    leds[(positionRed + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Red;
+    leds[(positionWhite + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Grey;
+    leds[(positionBlue + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Blue;
+  
+    FastLED.show();  //show the pixels
+   
+    //advance position based on delta, and rollover if needed.
+    positionRed = ((positionRed + delta + NUM_LEDS) % NUM_LEDS);
+    positionWhite = ((positionWhite + delta + NUM_LEDS) % NUM_LEDS);
+    positionBlue = ((positionBlue + delta + NUM_LEDS) % NUM_LEDS);
+
+  }//end_every_n
 
 }//end_main_loop
 
