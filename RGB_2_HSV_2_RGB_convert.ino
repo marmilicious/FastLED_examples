@@ -14,70 +14,77 @@
 //***************************************************************
 
 #include "FastLED.h"
-#define DATA_PIN    11
-#define CLOCK_PIN   13
-#define LED_TYPE    LPD8806
-#define COLOR_ORDER GBR
-#define NUM_LEDS    32
-#define BRIGHTNESS  255
+#define LED_TYPE      APA102
+#define DATA_PIN      11
+#define CLK_PIN       13
+#define NUM_LEDS      32
+#define COLOR_ORDER   BGR
+#define BRIGHTNESS    128
+
 CRGB leds[NUM_LEDS];
 
 
 //---------------------------------------------------------------
 void setup() {
-  Serial.begin(115200);  // Allows serial monitor output (check baud rate)
-  delay(1500); // startup delay
-  //FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.addLeds<LED_TYPE,DATA_PIN,CLOCK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(BRIGHTNESS);
-  FastLED.clear();
+    Serial.begin(115200);  // Allows serial monitor output (check baud rate)
+    delay(1500); // startup delay
+    // FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.setBrightness(BRIGHTNESS);
+    FastLED.clear();
 }
 
 
 //---------------------------------------------------------------
 void loop() {
-  EVERY_N_SECONDS( 3 ) {
-    //CHSV hsv( random8(), 255, 255 );  //pick random Hue
-    CHSV hsv( random8(), random8(), random8() );  //pick random HSV
-    CRGB rgb;
-    hsv2rgb_rainbow( hsv, rgb);  //convert HSV to RGB
+    EVERY_N_SECONDS( 3 ) {
+        //CHSV hsv( random8(), 255, 255 );  //pick random Hue
+        CHSV hsv( random8(), random8(), random8() );  //pick random HSV
+        CRGB rgb;
+        hsv2rgb_rainbow( hsv, rgb);  //convert HSV to RGB
 
-    //set first two pixels with HSV and RGB values to confirm they are the same.
-    leds[0] = hsv;
-    leds[1] = rgb;
+        //set first two pixels with HSV and RGB values to confirm they are the same.
+        leds[0] = hsv;
+        leds[1] = rgb;
 
-    //print out HSV and RGB values
-    Serial.print("         HSV:  ");
-    Serial.print(hsv.h);
-    Serial.print(", "); Serial.print(hsv.s);
-    Serial.print(", "); Serial.println(hsv.v);
+        //print out HSV and RGB values
+        Serial.print("         HSV:  ");
+        Serial.print(hsv.h);
+        Serial.print(", ");
+        Serial.print(hsv.s);
+        Serial.print(", ");
+        Serial.println(hsv.v);
 
-    Serial.print("         RGB:  ");
-    Serial.print(rgb.r);
-    Serial.print(", "); Serial.print(rgb.g);
-    Serial.print(", "); Serial.println(rgb.b);
+        Serial.print("         RGB:  ");
+        Serial.print(rgb.r);
+        Serial.print(", ");
+        Serial.print(rgb.g);
+        Serial.print(", ");
+        Serial.println(rgb.b);
 
 
-    //Now try converting RGB back to HSV using rgb2hsv_approximate.
-    //rgb2hsv_approximate works best with fully saturated or nearly
-    //saturated colors, otherwise it's not always super accurate.
+        //Now try converting RGB back to HSV using rgb2hsv_approximate.
+        //rgb2hsv_approximate works best with fully saturated or nearly
+        //saturated colors, otherwise it's not always super accurate.
 
-    hsv = rgb2hsv_approximate( rgb );
+        hsv = rgb2hsv_approximate( rgb );
 
-    //set third pixels with HSV approximate values to show how close it is.
-    leds[2] = hsv;
+        //set third pixels with HSV approximate values to show how close it is.
+        leds[2] = hsv;
 
-    //print out approximated HSV values
-    Serial.print("HSV(approx.):  ");
-    Serial.print(hsv.h);
-    Serial.print(", "); Serial.print(hsv.s);
-    Serial.print(", "); Serial.println(hsv.v);
+        //print out approximated HSV values
+        Serial.print("HSV(approx.):  ");
+        Serial.print(hsv.h);
+        Serial.print(", ");
+        Serial.print(hsv.s);
+        Serial.print(", ");
+        Serial.println(hsv.v);
 
-    Serial.println(" ");
+        Serial.println(" ");
 
-    FastLED.show();  //display the pixels
+        FastLED.show();  //display the pixels
 
-  }//end_EVERY_N
+    }//end_EVERY_N
 
 }//end_main_loop
 

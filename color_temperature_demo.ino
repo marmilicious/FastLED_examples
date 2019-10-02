@@ -6,12 +6,13 @@
 //***************************************************************
 
 #include "FastLED.h"
-#define DATA_PIN    11
-#define CLOCK_PIN   13
-#define LED_TYPE    LPD8806
-#define COLOR_ORDER GRB
-#define NUM_LEDS    32
-#define BRIGHTNESS  255
+#define LED_TYPE      APA102
+#define DATA_PIN      11
+#define CLK_PIN       13
+#define NUM_LEDS      32
+#define COLOR_ORDER   BGR
+#define BRIGHTNESS    128
+
 CRGB leds[NUM_LEDS];
 
 #define DISPLAYTIME 4  //number of SECONDS to show each color temperature
@@ -20,11 +21,12 @@ uint8_t temp;  //current tempature_# being displayed
 
 //---------------------------------------------------------------
 void setup() {
-  Serial.begin(115200);  // Allows serial monitor output (check baud rate)
-  delay( 1500 ); // power-up safety delay
-  FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalSMD5050 );
-  FastLED.setBrightness( BRIGHTNESS );
-  FastLED.clear();
+    Serial.begin(115200);  // Allows serial monitor output (check baud rate)
+    delay( 1500 ); // power-up safety delay
+    // FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.setBrightness( BRIGHTNESS );
+    FastLED.clear();
 }
 
 //---------------------------------------------------------------
@@ -52,62 +54,89 @@ void setup() {
 
 //---------------------------------------------------------------
 void loop() {
-  switch (temp) {
+    switch (temp) {
     case 0:
-      FastLED.setTemperature( TEMPERATURE_0 );  break;
+        FastLED.setTemperature( TEMPERATURE_0 );
+        break;
     case 1:
-      FastLED.setTemperature( TEMPERATURE_1 );  break;
+        FastLED.setTemperature( TEMPERATURE_1 );
+        break;
     case 2:
-      FastLED.setTemperature( TEMPERATURE_2 );  break;
+        FastLED.setTemperature( TEMPERATURE_2 );
+        break;
     case 3:
-      FastLED.setTemperature( TEMPERATURE_3 );  break;
+        FastLED.setTemperature( TEMPERATURE_3 );
+        break;
     case 4:
-      FastLED.setTemperature( TEMPERATURE_4 );  break;
+        FastLED.setTemperature( TEMPERATURE_4 );
+        break;
     case 5:
-      FastLED.setTemperature( TEMPERATURE_5 );  break;
+        FastLED.setTemperature( TEMPERATURE_5 );
+        break;
     case 6:
-      FastLED.setTemperature( TEMPERATURE_6 );  break;
+        FastLED.setTemperature( TEMPERATURE_6 );
+        break;
     case 7:
-      FastLED.setTemperature( TEMPERATURE_7 );  break;
+        FastLED.setTemperature( TEMPERATURE_7 );
+        break;
     case 8:
-      FastLED.setTemperature( TEMPERATURE_8 );  break;
+        FastLED.setTemperature( TEMPERATURE_8 );
+        break;
     case 9:
-      FastLED.setTemperature( TEMPERATURE_9 );  break;
+        FastLED.setTemperature( TEMPERATURE_9 );
+        break;
     case 10:
-      FastLED.setTemperature( TEMPERATURE_10 );  break;
+        FastLED.setTemperature( TEMPERATURE_10 );
+        break;
     case 11:
-      FastLED.setTemperature( TEMPERATURE_11 );  break;
+        FastLED.setTemperature( TEMPERATURE_11 );
+        break;
     case 12:
-      FastLED.setTemperature( TEMPERATURE_12 );  break;
+        FastLED.setTemperature( TEMPERATURE_12 );
+        break;
     case 13:
-      FastLED.setTemperature( TEMPERATURE_13 );  break;
+        FastLED.setTemperature( TEMPERATURE_13 );
+        break;
     case 14:
-      FastLED.setTemperature( TEMPERATURE_14 );  break;
+        FastLED.setTemperature( TEMPERATURE_14 );
+        break;
     case 15:
-      FastLED.setTemperature( TEMPERATURE_15 );  break;
+        FastLED.setTemperature( TEMPERATURE_15 );
+        break;
     case 16:
-      FastLED.setTemperature( TEMPERATURE_16 );  break;
+        FastLED.setTemperature( TEMPERATURE_16 );
+        break;
     case 17:
-      FastLED.setTemperature( TEMPERATURE_17 );  break;
+        FastLED.setTemperature( TEMPERATURE_17 );
+        break;
     case 18:
-      FastLED.setTemperature( TEMPERATURE_18 );  break;
+        FastLED.setTemperature( TEMPERATURE_18 );
+        break;
     case 19:
-      FastLED.setTemperature( TEMPERATURE_19 );  break;
-  }
+        FastLED.setTemperature( TEMPERATURE_19 );
+        break;
+    }
 
-  fill_solid(leds, NUM_LEDS, CRGB(255,255,255) );  //fill with white
-  if (temp==0) { leds[0]=CRGB::Red; leds[1]=CRGB::Green; leds[2]=CRGB::Blue; }
+    fill_solid(leds, NUM_LEDS, CRGB(255, 255, 255) ); //fill with white
+    if (temp == 0) {
+        leds[0] = CRGB::Red;
+        leds[1] = CRGB::Green;
+        leds[2] = CRGB::Blue;
+    }
 
-  FastLED.show();  //display pixels
+    FastLED.show();  //display pixels
 
-  EVERY_N_SECONDS(DISPLAYTIME) {
-    FastLED.clear();
-    FastLED.show();
-    delay(BLACKOUTTIME);
-    temp++;
-    if (temp == 20) { temp = 0; }  //reset
-    Serial.print("Current temperature: "); Serial.println(temp);  //print temp # to serial monitor
-  }
+    EVERY_N_SECONDS(DISPLAYTIME) {
+        FastLED.clear();
+        FastLED.show();
+        delay(BLACKOUTTIME);
+        temp++;
+        if (temp == 20) {
+            temp = 0;    //reset
+        }
+        Serial.print("Current temperature: ");
+        Serial.println(temp);  //print temp # to serial monitor
+    }
 
 }//end_main_loop
 

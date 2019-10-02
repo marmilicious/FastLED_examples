@@ -1,6 +1,6 @@
 //***************************************************************
 // Example of combining an "overlay" pattern with a "base" pattern.
-// 
+//
 // The overlay is toggled On/Off with a push button, but this could
 // be modified to triggered by anything else as needed.
 //
@@ -11,12 +11,12 @@
 //***************************************************************
 
 #include "FastLED.h"
-#define DATA_PIN    11
-#define CLK_PIN     13
-#define LED_TYPE    LPD8806
-#define COLOR_ORDER GRB
-#define NUM_LEDS    32
-#define BRIGHTNESS  255
+#define LED_TYPE      APA102
+#define DATA_PIN      11
+#define CLK_PIN       13
+#define NUM_LEDS      32
+#define COLOR_ORDER   BGR
+#define BRIGHTNESS    128
 
 CRGB base[NUM_LEDS];      //base pattern that's always running
 CRGB overlay[NUM_LEDS];   //this is added to base
@@ -35,68 +35,69 @@ Button myButton(buttonPin, true, true, 50);  //declare the button
 
 //---------------------------------------------------------------
 void setup() {
-  Serial.begin(115200);  // Allows serial monitor output (check baud rate)
-  delay(1500); // startup delay
-  //FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(BRIGHTNESS);
-  FastLED.clear();
-  Serial.println("Setup done.\n");
+    Serial.begin(115200);  // Allows serial monitor output (check baud rate)
+    delay(1500); // startup delay
+    // FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.setBrightness(BRIGHTNESS);
+    FastLED.clear();
+    Serial.println("Setup done.\n");
 }
 
 
 //---------------------------------------------------------------
-void loop()
-{
-  triggerCheck();     //check the overlay trigger (a push button in this example)
+void loop() {
+    triggerCheck();     //check the overlay trigger (a push button in this example)
 
-  basePattern();      //update the base display
-  overlayPattern();   //update the overlay display (as needed)
-  combinePatterns();  //combine the base and overlay before displaying
+    basePattern();      //update the base display
+    overlayPattern();   //update the overlay display (as needed)
+    combinePatterns();  //combine the base and overlay before displaying
 
-  FastLED.show();     //show the pixels
+    FastLED.show();     //show the pixels
 
 }//end_main_loop
 
 
 //---------------------------------------------------------------
 void basePattern() {  //NOTE: we are drawing to the "base" CRGB here
-  static uint8_t gHue = 0; //slowly rotating hue color
-  EVERY_N_MILLISECONDS( 30 ) { gHue++; }  //slowly cycle through the rainbow
-  fill_rainbow( base, NUM_LEDS, gHue, 255/NUM_LEDS/2);
-  fadeToBlackBy( base, NUM_LEDS, 220);  //dim the rainbow down
+    static uint8_t gHue = 0; //slowly rotating hue color
+    EVERY_N_MILLISECONDS( 30 ) {
+        gHue++;    //slowly cycle through the rainbow
+    }
+    fill_rainbow( base, NUM_LEDS, gHue, 255 / NUM_LEDS / 2);
+    fadeToBlackBy( base, NUM_LEDS, 220);  //dim the rainbow down
 }//end_basePattern
 
 
 //---------------------------------------------------------------
 void overlayPattern() {  //NOTE: we are drawing to the "overlay" CRGB here
-  if (toggleButton) {  //overlay is currently "On"
-    EVERY_N_MILLISECONDS(60) {
-      static uint8_t pos = 0;
-      overlay[pos] = overlay[NUM_LEDS-1-pos] = CRGB::White;
-      fadeToBlackBy( overlay, NUM_LEDS, 120);  //creates fading tail effect
-      pos++;
-      if (pos == NUM_LEDS/2) {  //check against desired range
-        pos = 0;  //reset for next round
-        //toggleButton = !toggleButton;  //uncomment to have the overlay pattern only run a single time 
-      }
+    if (toggleButton) {  //overlay is currently "On"
+        EVERY_N_MILLISECONDS(60) {
+            static uint8_t pos = 0;
+            overlay[pos] = overlay[NUM_LEDS - 1 - pos] = CRGB::White;
+            fadeToBlackBy( overlay, NUM_LEDS, 120);  //creates fading tail effect
+            pos++;
+            if (pos == NUM_LEDS / 2) { //check against desired range
+                pos = 0;  //reset for next round
+                //toggleButton = !toggleButton;  //uncomment to have the overlay pattern only run a single time
+            }
+        }
+
+    } else {  //overlay is currently "Off"
+        EVERY_N_MILLISECONDS(30) {
+            fadeToBlackBy( overlay, NUM_LEDS, 50);  //fadeout overlay pattern
+        }
     }
 
-  } else {  //overlay is currently "Off"
-    EVERY_N_MILLISECONDS(30) {
-      fadeToBlackBy( overlay, NUM_LEDS, 50);  //fadeout overlay pattern
-    }
-  }
-  
 }//end_overlayPattern
 
 
 //---------------------------------------------------------------
 void combinePatterns() {
-  for (uint8_t i=0; i<NUM_LEDS; i++) {
-    leds[i] = base[i];      //copy base to leds
-    leds[i] += overlay[i];  //add overlay to leds
-  }
+    for (uint8_t i = 0; i < NUM_LEDS; i++) {
+        leds[i] = base[i];      //copy base to leds
+        leds[i] += overlay[i];  //add overlay to leds
+    }
 }//end_combinePatterns
 
 
@@ -111,12 +112,12 @@ void combinePatterns() {
 
 //---------------------------------------------------------------
 void triggerCheck() {
-  myButton.read();  //read the button
-  if(myButton.wasPressed()) {
-    toggleButton = !toggleButton;  //inverts current state
-    Serial.print("Button pressed!  toggleButton = ");
-    Serial.println(toggleButton);
-  }
+    myButton.read();  //read the button
+    if(myButton.wasPressed()) {
+        toggleButton = !toggleButton;  //inverts current state
+        Serial.print("Button pressed!  toggleButton = ");
+        Serial.println(toggleButton);
+    }
 }//end_triggerCheck
 
 

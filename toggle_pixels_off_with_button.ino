@@ -31,38 +31,38 @@ Button OnOff_Button(ButtonPin, true, true, 100);
 
 //---------------------------------------------------------------
 #include "FastLED.h"
-#define DATA_PIN    11
-#define CLK_PIN   13
-#define LED_TYPE    LPD8806
-#define COLOR_ORDER GRB
-#define NUM_LEDS    32
+#define LED_TYPE      APA102
+#define DATA_PIN      11
+#define CLK_PIN       13
+#define NUM_LEDS      32
+#define COLOR_ORDER   BGR
+#define BRIGHTNESS    128
+
 CRGB leds[NUM_LEDS];
-#define BRIGHTNESS 128
 
 boolean OnOff_Status = 1;  // Status of extra pixels.  [1=On, 0=Off]
 
 
 //---------------------------------------------------------------
 void setup() {
-  Serial.begin(115200);  // Allows serial monitor output (check baud rate)
-  delay(1500); // short delay for recovery
-  //FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(BRIGHTNESS);
-  FastLED.clear();
+    Serial.begin(115200);  // Allows serial monitor output (check baud rate)
+    delay(1500); // short delay for recovery
+    // FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.setBrightness(BRIGHTNESS);
+    FastLED.clear();
 }
 
 
 //---------------------------------------------------------------
-void loop()
-{
-  readbutton();  // check the button to see if it's been pressed
+void loop() {
+    readbutton();  // check the button to see if it's been pressed
 
-  fill_rainbow( leds, NUM_LEDS, millis()/20 );
+    fill_rainbow( leds, NUM_LEDS, millis() / 20 );
 
-  
-  extraLeds_OnOff();  // always run right before FastLED.show()
-  FastLED.show();  // display the pixels
+
+    extraLeds_OnOff();  // always run right before FastLED.show()
+    FastLED.show();  // display the pixels
 
 }//end_main_loop
 
@@ -75,25 +75,26 @@ void loop()
 //---------------------------------------------------------------
 //Check the button and set the appropriate flag
 void readbutton() {
-  OnOff_Button.read();  // check the state of the button
+    OnOff_Button.read();  // check the state of the button
 
-  if(OnOff_Button.wasPressed()) {
-    OnOff_Status = !OnOff_Status;
-    Serial.print("OnOff_Status: "); Serial.println(OnOff_Status);
-  }
+    if(OnOff_Button.wasPressed()) {
+        OnOff_Status = !OnOff_Status;
+        Serial.print("OnOff_Status: ");
+        Serial.println(OnOff_Status);
+    }
 
 }//end_readbutton
 
 
 //---------------------------------------------------------------
 // Turn extra pixels on or off
-void extraLeds_OnOff(){
+void extraLeds_OnOff() {
 
-  if (OnOff_Status ==0) {
-    for (uint8_t i=24; i < NUM_LEDS; i++) {  //i=24 is the first pixel in the extras to be turned off.
-     leds[i] = CRGB::Black;  // turn "off"
+    if (OnOff_Status == 0) {
+        for (uint8_t i = 24; i < NUM_LEDS; i++) { //i=24 is the first pixel in the extras to be turned off.
+            leds[i] = CRGB::Black;  // turn "off"
+        }
     }
-  }
 
 }//end_extraLeds_OnOff
 

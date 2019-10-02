@@ -28,54 +28,62 @@ uint8_t hue;
 
 //---------------------------------------------------------------
 void setup() {
-  delay(1500);
-  pinMode(REDPIN,   OUTPUT);  //setup pins for controlling analog RGB LED
-  pinMode(GREENPIN, OUTPUT);
-  pinMode(BLUEPIN,  OUTPUT);
-  colorBars();  //display R,G,B color check during startup to confirm wiring
+    delay(1500);
+    pinMode(REDPIN,   OUTPUT);  //setup pins for controlling analog RGB LED
+    pinMode(GREENPIN, OUTPUT);
+    pinMode(BLUEPIN,  OUTPUT);
+    colorBars();  //display R,G,B color check during startup to confirm wiring
 }
 
 
 //---------------------------------------------------------------
 //Function to update the analog LED display
-void showAnalogRGB( const CRGB& rgb) {
-  //Note: scale8 is used to adjust values based on BRIGHTNESS
+void showAnalogRGB( const CRGB &rgb) {
+    //Note: scale8 is used to adjust values based on BRIGHTNESS
 
-  //Also note, I needed to update this to use 255 minus the rgb
-  //value since the LED I am using is common anode.  If your
-  //analog RGB LED is common cathode you don't need the "255-" part.
-  analogWrite(REDPIN,   255-scale8(rgb.r, BRIGHTNESS) );  //for common anode
-  analogWrite(GREENPIN, 255-scale8(rgb.g, BRIGHTNESS) );
-  analogWrite(BLUEPIN,  255-scale8(rgb.b, BRIGHTNESS) );
-  //analogWrite(REDPIN,   scale8(rgb.r, BRIGHTNESS) );  //for common cathode
-  //analogWrite(GREENPIN, scale8(rgb.g, BRIGHTNESS) );
-  //analogWrite(BLUEPIN,  scale8(rgb.b, BRIGHTNESS) );
+    //Also note, I needed to update this to use 255 minus the rgb
+    //value since the LED I am using is common anode.  If your
+    //analog RGB LED is common cathode you don't need the "255-" part.
+    analogWrite(REDPIN,   255 - scale8(rgb.r, BRIGHTNESS) ); //for common anode
+    analogWrite(GREENPIN, 255 - scale8(rgb.g, BRIGHTNESS) );
+    analogWrite(BLUEPIN,  255 - scale8(rgb.b, BRIGHTNESS) );
+    //analogWrite(REDPIN,   scale8(rgb.r, BRIGHTNESS) );  //for common cathode
+    //analogWrite(GREENPIN, scale8(rgb.g, BRIGHTNESS) );
+    //analogWrite(BLUEPIN,  scale8(rgb.b, BRIGHTNESS) );
 }
 
 
 //---------------------------------------------------------------
 void loop() {
-  EVERY_N_MILLISECONDS(250) {  //cycle through the rainbow
-    fill_rainbow( leds, 1, hue);
-    hue = hue + 5;
-  }
+    EVERY_N_MILLISECONDS(250) {  //cycle through the rainbow
+        fill_rainbow( leds, 1, hue);
+        hue = hue + 5;
+    }
 
-  EVERY_N_MILLISECONDS(5) {  //change the master brightness
-    static uint8_t delta = 1;
-    BRIGHTNESS = BRIGHTNESS - delta;
-  }
-  
-  showAnalogRGB( leds[0]);  //update the LED display
+    EVERY_N_MILLISECONDS(5) {  //change the master brightness
+        static uint8_t delta = 1;
+        BRIGHTNESS = BRIGHTNESS - delta;
+    }
+
+    showAnalogRGB( leds[0]);  //update the LED display
 
 }//end_main_loop
 
 
 //---------------------------------------------------------------
 void colorBars() {
-  //This function is called once during startup to confirm the R,G,B wiring
-  fill_solid(leds,1,CRGB::Red);   showAnalogRGB( leds[0] ); delay(1500);
-  fill_solid(leds,1,CRGB::Green); showAnalogRGB( leds[0] ); delay(1500);
-  fill_solid(leds,1,CRGB::Blue);  showAnalogRGB( leds[0] ); delay(1500);
-  fill_solid(leds,1,CRGB::Black); showAnalogRGB( leds[0] ); delay(500);
+    //This function is called once during startup to confirm the R,G,B wiring
+    fill_solid(leds, 1, CRGB::Red);
+    showAnalogRGB( leds[0] );
+    delay(1500);
+    fill_solid(leds, 1, CRGB::Green);
+    showAnalogRGB( leds[0] );
+    delay(1500);
+    fill_solid(leds, 1, CRGB::Blue);
+    showAnalogRGB( leds[0] );
+    delay(1500);
+    fill_solid(leds, 1, CRGB::Black);
+    showAnalogRGB( leds[0] );
+    delay(500);
 }
 
