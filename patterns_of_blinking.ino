@@ -17,12 +17,13 @@
 
 
 #include "FastLED.h"
-#define DATA_PIN    11
-#define CLOCK_PIN     13
-#define LED_TYPE    LPD8806
-#define COLOR_ORDER GRB
-#define NUM_LEDS    32
-#define BRIGHTNESS  64
+#define LED_TYPE      APA102
+#define DATA_PIN      11
+#define CLK_PIN       13
+#define NUM_LEDS      32
+#define COLOR_ORDER   BGR
+#define BRIGHTNESS    128
+
 CRGB leds[NUM_LEDS];
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
@@ -34,10 +35,10 @@ uint16_t patternDelay = 1000;  //time to display each color [milliseconds]
 long colorA = 0x00FF7F;  //using HEX
 long black =  0x000000;
 
-CRGB temp = CRGB(200,64,200);  //using RGB
+CRGB temp = CRGB(200, 64, 200); //using RGB
 long colorB = ((long)temp.r << 16L) | ((long)temp.g << 8L) | (long)temp.b;
 
-CRGB temp2 = CHSV(140,160,255);  //using HSV
+CRGB temp2 = CHSV(140, 160, 255); //using HSV
 long colorC = ((long)temp2.r << 16L) | ((long)temp2.g << 8L) | (long)temp2.b;
 
 
@@ -72,46 +73,49 @@ uint8_t patternCount[nPatterns];  //keeps track of each pattern's current positi
 
 //---------------------------------------------------------------
 void setup() {
-  Serial.begin(115200);  // Allows serial monitor output (check baud rate)
-  delay(1500); // startup delay
-  //FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.addLeds<LED_TYPE,DATA_PIN,CLOCK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(BRIGHTNESS);
-  FastLED.clear();
-  FastLED.show();
+    Serial.begin(115200);  // Allows serial monitor output (check baud rate)
+    delay(1500); // startup delay
+    // FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.setBrightness(BRIGHTNESS);
+    FastLED.clear();
+    FastLED.show();
 
-  Serial.print("Number of patterns: "); Serial.println(nPatterns);
-  Serial.println("Number of colors per pattern: ");
-  for (uint8_t i=0; i < nPatterns; i++) {
-    Serial.print("  psize"); Serial.print(i); Serial.print(" = ");
-    Serial.println(patternSize[i]);
-  }
-  Serial.println("\nSetup done. \n");
+    Serial.print("Number of patterns: ");
+    Serial.println(nPatterns);
+    Serial.println("Number of colors per pattern: ");
+    for (uint8_t i = 0; i < nPatterns; i++) {
+        Serial.print("  psize");
+        Serial.print(i);
+        Serial.print(" = ");
+        Serial.println(patternSize[i]);
+    }
+    Serial.println("\nSetup done. \n");
 }
 
 
 //---------------------------------------------------------------
 void loop() {
 
-  EVERY_N_MILLISECONDS(patternDelay) {
-  
-    for (uint8_t p=0; p < nPatterns; p++) {
-      // Can use this to print out info for checking the pattern counts.
-      //Serial.print("p"); Serial.print(p); 
-      //Serial.print("    patternCount: ");
-      //Serial.println(patternCount[p]);
+    EVERY_N_MILLISECONDS(patternDelay) {
 
-      leds[p] = patternList[p][patternCount[p]];
-      patternCount[p] = patternCount[p] + 1;
-      if (patternCount[p] == patternSize[p]) {
-        patternCount[p] = 0;  //reset count for this pattern
-      }
-    }
+        for (uint8_t p = 0; p < nPatterns; p++) {
+            // Can use this to print out info for checking the pattern counts.
+            //Serial.print("p"); Serial.print(p);
+            //Serial.print("    patternCount: ");
+            //Serial.println(patternCount[p]);
 
-    FastLED.show();  //this can be moved outside the EVERY_N block as needed
+            leds[p] = patternList[p][patternCount[p]];
+            patternCount[p] = patternCount[p] + 1;
+            if (patternCount[p] == patternSize[p]) {
+                patternCount[p] = 0;  //reset count for this pattern
+            }
+        }
 
-  }//end_EVERY_N
-    
+        FastLED.show();  //this can be moved outside the EVERY_N block as needed
+
+    }//end_EVERY_N
+
 }//end_main_loop
 
 
