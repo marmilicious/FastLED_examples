@@ -6,6 +6,7 @@
 //   CloudColors_p, LavaColors_p, ForestColors_p, and PartyColors_p
 //
 // Marc Miller,  March 2019
+//               Dec 2019 - updated to use EVERY_N instead of delay
 //***************************************************************
 
 #include "FastLED.h"
@@ -32,15 +33,16 @@ void setup() {
 
 //---------------------------------------------------------------
 void loop() {
-  colorIndex = startIndex;
-  for( int i = 0; i < NUM_LEDS; i++) {
-    //ColorFromPalette( paletteName, colorIndex[0-255], brightness[0-255], blendType[NOBLEND or LINEARBLEND])
-    leds[i] = ColorFromPalette( RainbowColors_p, colorIndex, 255, LINEARBLEND);
-    colorIndex = colorIndex + 10;  //how fast to advance through palette
-  }
-
-  FastLED.show();
-  FastLED.delay(10);
-  startIndex = startIndex + 1;  //how fast to move the palette down the strip
+  EVERY_N_MILLISECONDS(10) {
+    colorIndex = startIndex;
+    for( int i = 0; i < NUM_LEDS; i++) {
+              //ColorFromPalette( paletteName, colorIndex[0-255], brightness[0-255], blendType[NOBLEND or LINEARBLEND])
+      leds[i] = ColorFromPalette( RainbowColors_p, colorIndex, 255, LINEARBLEND);
+      colorIndex = colorIndex + 10;  //how fast to advance through palette
+    }
+  
+    FastLED.show();
+    startIndex = startIndex + 1;  //how fast to move the palette down the strip
+  }//end_every_n
+  
 }
-
