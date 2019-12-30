@@ -123,7 +123,7 @@ void setSegments(uint8_t count){
 
     if (i == 1) {  // Shift segments over to 10s digit display area
       for (uint8_t p=0; p < (7*pps); p++) {
-        leds[p+(7*pps)] = leds[p+(7*pps)];
+        leds[p+(7*pps)] = leds[p];
       }
     }
 
