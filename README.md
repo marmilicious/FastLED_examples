@@ -9,6 +9,7 @@ Download the current FastLED library from: [github.com/FastLED/FastLED](https://
 (Use "Download Zip" link on right side.)
 
 
+Share projects, ask questions, and participate in the FastLED Reddit group: [reddit.com/r/FastLED/](https://www.reddit.com/r/FastLED/)
 
 
 -Marc Miller, 
