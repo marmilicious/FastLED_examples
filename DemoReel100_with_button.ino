@@ -7,6 +7,9 @@
 // Search for "button" to find the various button releated
 // code additions.
 //
+// You can view the serial monitor to see a message when the
+// button is pressed.
+//
 // Marc Miller, March 2017
 //   Updated Jan 2020 - for JC_button library updates
 //***************************************************************
@@ -23,7 +26,6 @@ CRGB leds[NUM_LEDS];
 
 
 //---------------------------------------------------------------
-//BUTTON STUFF
 // This uses JChristensen's Button Library from:
 //   https://github.com/JChristensen/JC_Button
 #include "JC_Button.h"    // Include Button library
