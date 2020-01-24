@@ -4,10 +4,11 @@
 // The overlay is toggled On/Off with a push button, but this could
 // be modified to triggered by anything else as needed.
 //
-// Line 81 can be uncommented if you only want to overlay pattern
+// Line 86 can be uncommented if you only want the overlay pattern
 // to run a single time affter it has been triggered.
 //
 // Marc Miller, Feb 2018
+//   Updated Jan 2020 - for JC_button library updates
 //***************************************************************
 
 #include "FastLED.h"
@@ -27,9 +28,9 @@ bool toggleButton = 0;    //toggled On/Off with each button press
 
 //---------------------------------------------------------------
 // This example uses JChristensen's Button Library from:
-//   https://github.com/JChristensen/Button
-#include "Button.h"       //include button library
-const int buttonPin = 4;  //set digital pin connected to momentary push button
+//   https://github.com/JChristensen/JC_Button
+#include "JC_Button.h"       //include button library
+const uint8_t buttonPin = 4;  //set digital pin connected to momentary push button
 Button myButton(buttonPin, true, true, 50);  //declare the button
 
 
@@ -41,6 +42,8 @@ void setup() {
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
+
+  myButton.begin();  // initialize the button object
   Serial.println("Setup done.\n");
 }
 
@@ -78,7 +81,9 @@ void overlayPattern() {  //NOTE: we are drawing to the "overlay" CRGB here
       pos++;
       if (pos == NUM_LEDS/2) {  //check against desired range
         pos = 0;  //reset for next round
-        //toggleButton = !toggleButton;  //uncomment to have the overlay pattern only run a single time 
+        // Uncomment this next line to have the overlay pattern only run a
+        // single time.  Otherwise the button toggles the overlay addition on/off.
+        //toggleButton = !toggleButton;  
       }
     }
 
