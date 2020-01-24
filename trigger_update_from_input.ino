@@ -6,10 +6,11 @@
 // that monitors the input.
 //
 // This example uses JChristensen's Button Library from:
-//   https://github.com/JChristensen/Button
+//   https://github.com/JChristensen/JC_Button
 // 
 //
 // Marc Miller, Feb 2017
+//   Updated Jan 2020 - for JC_button library updates
 //***************************************************************
 
 #include "FastLED.h"
@@ -22,8 +23,8 @@
 CRGB leds[NUM_LEDS];
 
 // use JChristensen's Button library 
-#include "Button.h"  
-const int buttonPin = 4;  // digital pin used for debounced push button
+#include "JC_Button.h"  
+const uint8_t buttonPin = 4;  // digital pin used for debounced push button
 Button myButton(buttonPin, true, true, 40);  // declare the button
 
 
@@ -39,6 +40,8 @@ void setup() {
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
+
+  myButton.begin();  // initialize the button object
   Serial.println("Setup done. \n");
 }
 
@@ -55,6 +58,7 @@ void loop() {
   }
 
   FastLED.show();  // update the display
+  delay(2);
 
 }//end_main_loop
 
@@ -69,4 +73,3 @@ void checkInput(){  // function to check input
     input = false;
   }
 }//end_checkInput
-
