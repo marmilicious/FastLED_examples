@@ -1,20 +1,16 @@
 
 /*********************************************************************/
-// Example OUTLINE (Not complete code) for running different patterns
-// on 4 different strips at the same time.  This example is for a
-// colored "star" shape with three different length "tails" streaming
-// out from one side to give a "shooting star" sort of look.
+// Example outline (incomplete code) for running different patterns
+// on 4 different LED strips (strip A,B,C,D) at the same time.
 //
-// EVERY_N_MILLISECONDS is used to allow each strip (or tail) to be
-// updated at a seperate rate as needed.  [Or each strip could be
-// running it's own completely different pattern at whatever rate
-// needed.
+// EVERY_N_MILLISECONDS is used to allow each strip to be updated at
+// a seperate rate, and each strip can be running a different pattern.
 //
 // Note that there is only one FastLED.show() call at the bottom of
 // the program which updates all pixels at the same time.
 //
 //
-// Marc Miller,  Oct 2019
+// Marc Miller,  Feb 2020
 /*********************************************************************/
 
 #include "FastLED.h"
@@ -22,30 +18,30 @@
 #define COLOR_ORDER RGB
 #define MASTER_BRIGHTNESS 255
 
-#define DATA_PIN_STAR 11  // update pin numbers for data lines as needed
-#define DATA_PIN_TAIL1 12
-#define DATA_PIN_TAIL2 13
-#define DATA_PIN_TAIL3 14
+#define DATA_PIN_A 11  // update pin numbers for data lines as needed
+#define DATA_PIN_B 12
+#define DATA_PIN_C 13
+#define DATA_PIN_D 14
 
-#define NUM_LEDS 50  // adjust number of pixels as needed
-#define NUM_TAIL1 30
-#define NUM_TAIL2 60
-#define NUM_TAIL3 45
+#define NUM_LEDS_A 50  // adjust number of pixels as needed
+#define NUM_LEDS_B 30
+#define NUM_LEDS_C 60
+#define NUM_LEDS_D 45
 
-CRGB leds[NUM_LEDS];
-CRGB tail1[NUM_TAIL1];
-CRGB tail2[NUM_TAIL2];
-CRGB tail3[NUM_TAIL3];
+CRGB ledsA[NUM_LEDS_A];
+CRGB ledsB[NUM_LEDS_B];
+CRGB ledsC[NUM_LEDS_C];
+CRGB ledsD[NUM_LEDS_D];
 
 
 /*********************************************************************/
 void setup() {
   Serial.begin(115200);  //allow for output to serial monitor
   delay(2500);  //power up delay
-  FastLED.addLeds<LED_TYPE, DATA_PIN_STAR, COLOR_ORDER>(leds, NUM_LEDS);
-  FastLED.addLeds<LED_TYPE, DATA_PIN_TAIL1, COLOR_ORDER>(tail1, NUM_TAIL1);
-  FastLED.addLeds<LED_TYPE, DATA_PIN_TAIL2, COLOR_ORDER>(tail2, NUM_TAIL2);
-  FastLED.addLeds<LED_TYPE, DATA_PIN_TAIL3, COLOR_ORDER>(tail3, NUM_TAIL3);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_A, COLOR_ORDER>(ledsA, NUM_LEDS_A);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_B, COLOR_ORDER>(ledsB, NUM_LEDS_B);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_C, COLOR_ORDER>(ledsC, NUM_LEDS_C);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_D, COLOR_ORDER>(ledsD, NUM_LEDS_D);
   FastLED.setBrightness(MASTER_BRIGHTNESS);
   FastLED.clear();
   Serial.println("Setup done.");
@@ -55,37 +51,50 @@ void setup() {
 /*********************************************************************/
 void loop() {
 
-  //------code to color the star (first strip) here------
-  EVERY_N_SECONDS(60) {
-    // Use leds and NUM_LEDS in this section.
-    fill_solid(leds, NUM_LEDS, CHSV(0, 255, 255));
+  //------code for the pattern on the first strip, ledsA------
+  // This will run the stuff inside the EVERY_N section every 4 seconds
+  // Use ledsA and NUM_LEDS_A in this section to update date for strip A.
+
+  EVERY_N_SECONDS(4) {
+    static uint8_t hueA;
+    fill_solid(ledsA, NUM_LEDS_A, CHSV(hueA, 255, 255));
+    hueA++;
   }
 
 
-  //------code for tail1 pattern (second strip)------
-  EVERY_N_MILLISECONDS(60) {
-    // Putting the tail1 pattern stuff inside this EVERY_N allows
-    //   the speed for just this tail to be individually set.
-    // Instead of leds, use tail1 in this section, such as tail1[i] to
-    //   update this strip's pixels.  Also use NUM_TAIL1 for loops lengths
-    //   in this section, such as:
-    //   for (int i = 0; i < NUM_TAIL1; i++) {
-    ...do stuff here...
+
+  //------code for the second strip, ledsB here------
+  // Putting the ledsB pattern inside this EVERY_N section allows
+  // the speed for just this strip to be individually adjusted.
+  // This will run every 500 milliseconds.
+  // Use ledsB in this section, such as ledsB[i], and NUM_LEDS_B
+  // with for loops so it uses the correct length of strip B.
+  // For example:
+
+  EVERY_N_MILLISECONDS(500) {
+    for (int i = 0; i < NUM_LEDS_B; i++) {
+      ledsB[i] = do stuff here...
   }
 
 
-  //------code for tail2 pattern------
-  EVERY_N_MILLISECONDS(45) {
-    // This tail can run a similar or different pattern and with it's own timing.
-    // Use tail2[i] and NUM_TAIL2 in this section.
-    ...do stuff here...
+
+  //------code for ledsC pattern------
+  // This strip can run a similar or different pattern, and have
+  // it's own timing.  This will run every 35 milliseconds.
+  // Use ledsC[i] and NUM_LEDS_C in this section.
+
+  EVERY_N_MILLISECONDS(35) {
+    ...do stuff for ledsC here...
   }
 
 
-  //------code for tail3 pattern------
-  EVERY_N_MILLISECONDS(55) {
-    // This tail can also do it's own thing as needed.
-    ...do stuff here...
+
+  //------code for ledsD pattern------
+  // This strip can also do it's own individual thing.  
+  // Use ledsD and NUM_LEDS_D in this section.
+
+  EVERY_N_MILLISECONDS(150) {
+    fill_rainbow( ledsD, NUM_LEDS_D, millis()/20);
   }
 
 
