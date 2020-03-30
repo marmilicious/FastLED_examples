@@ -4,7 +4,7 @@
 // timer used for picking a new pattern has been commented out
 // and there is a button check inside the main loop now.
 //
-// Search for "button" to find the various button releated
+// Search for "button" to find the various button related
 // code additions.
 //
 // You can view the serial monitor to see a message when the
@@ -343,6 +343,12 @@ void twoDots() {
 //---------------------------------------------------------------
 
 //---------Function to read the button and do something----------
+//   This section could be changed to use a potentiometer,
+//   encoder, or something else to trigger a pattern change.
+//   Depending on what was used, the nextPattern() function
+//   might need to be updated as well to have things work
+//   the way you intend.
+
 void readbutton() {
   myButton.read();
   if(myButton.wasPressed()) {
@@ -352,10 +358,10 @@ void readbutton() {
     //Flash pixel zero white as a visual that button was pressed.
     leds[0] = CHSV(0,0,255);  //Set first pixel color white
     FastLED.show();  //Update display
-    delay(100);  //Short pause so we can see leds[0] flash
+    delay(100);  //Short pause so we can see leds[0] flash on
     leds[0] = CRGB::Black;  //Set first pixel off
-    FastLED.show();  //Update display
-    delay(100);  //Short pause so we can see leds[0] flash
+    FastLED.show();
+    delay(100);
   }
 }//end_readbutton
 
