@@ -78,7 +78,8 @@ void repeatingPattern() {
   // Set first n pixels with the pattern to repeat
   fill_rainbow( leds, patternLength, millis()/100, 15 );
 
-  // Set first pixel in pattern white to easily see where pattern restarts/repeats
+  // Set first pixel in pattern to white to easily see where pattern
+  // restarts/repeats.  Visually helps debug/confirm that's happening.
   leds[0] = CHSV(0,0,200);
   
   // Copy pixel data from first n pixels to rest of strip using memmove8
