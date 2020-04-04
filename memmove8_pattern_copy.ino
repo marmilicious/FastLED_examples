@@ -1,9 +1,11 @@
 //***************************************************************
-// Example of using memmove8 to transfer pixel data around.
+// Example of using memmove8 to copy/repeat pixel data down strip.
 //
-// A pattern we want to repeat is assigned to the first four pixels.
-// That color data is then repeated down the rest of the strip by
-// using memmove8 to copy it to the other pixels.
+// Random pattern lengths are picks and then then the first n pixels
+// are filled with color data.  The pattern is then copied/repeated
+// down the length of the strip using memmove8.  If the pattern
+// length doesn't divide into NUM_LEDS as a whole number then the
+// last few pixels are copied separately.
 //
 // The snytax for memmove8 is:
 // memmove8( &destination[start position], &source[start position], size of pixel data )
@@ -15,14 +17,11 @@
 // In code we can write that as:  pixels * sizeof(CRGB).
 //
 // *NOTE*:
-//   The destination start position must be correct and you
-//   need to be carful about not going past the end of the strip,
-//   otherwise bad things can happen in memory.  If the number
-//   of pixels in your strip does not divide up evenly with the
-//   number of pixels you are copying you will need to manually
-//   copy the last few pixels.  Do not copy pixel data to pixels
-//   that don't exist (ie greater then leds[NUM_LEDS-1]).  It will
-//   cause weird memory issues.
+//   When coping the pixel data you need to be careful about not
+//   going past the end of the strip, otherwise bad things can
+//   happen in memory.  If pixel data is copied to pixels that
+//   don't exist (ie greater then leds[NUM_LEDS-1]) then the
+//   controller can have weird memory issues/lockups/reboots.
 //
 // Marc Miller, April 2020
 //***************************************************************
@@ -37,6 +36,9 @@
 #define NUM_LEDS 32
 
 CRGB leds[NUM_LEDS];
+uint8_t patternLength = 4;
+uint8_t pRepeat = NUM_LEDS / patternLength;
+uint8_t pDiff = NUM_LEDS % patternLength;
 
 
 //---------------------------------------------------------------
@@ -52,31 +54,45 @@ void setup() {
 
 //---------------------------------------------------------------
 void loop() {
-    // Set first 4 pixels with the pattern we want to repeat.
-    fill_rainbow(leds, 4, millis()/20, 20);
-
-    // Copy the pixel data down the rest of the strip.
-    CopyPixels();
-    
-    FastLED.show();  //display leds
-
+  
+  repeatingPattern();
+  FastLED.show();
 
 }//end_main_loop
 
 
 //---------------------------------------------------------------
-void CopyPixels() {
-  // Copy pixel data from frist 4 pixels to rest of strip.
+void repeatingPattern() {
+  // Every so often pick a new random pattern length
+  EVERY_N_SECONDS(7) {
+    FastLED.clear();
+    random16_add_entropy(random16() + random());
+    patternLength = random8(3,11);
+    pRepeat = NUM_LEDS / patternLength;
+    pDiff = NUM_LEDS % patternLength;
+    Serial.print("patternLength: "); Serial.print(patternLength);
+    Serial.print("\tpDiff: "); Serial.print(NUM_LEDS); Serial.print(" % "); Serial.print(patternLength);
+    Serial.print(" = "); Serial.println(pDiff);
+  }
 
-  for (uint8_t i=0; i < NUM_LEDS/4; i++) {
-    memmove8( &leds[i*4], &leds[0], (4)*sizeof(CRGB) );
+  // Set first n pixels with the pattern to repeat
+  fill_rainbow( leds, patternLength, millis()/100, 15 );
+
+  // Set first pixel in pattern white to easily see where pattern restarts/repeats
+  leds[0] = CHSV(0,0,200);
+  
+  // Copy pixel data from first n pixels to rest of strip using memmove8
+  // Syntax for memmove8:
+  //   memmove8( &destination[start position], &source[start position], size of pixel data )
+  for (uint8_t i=0; i < pRepeat; i++) {
+    memmove8( &leds[i*patternLength], &leds[0], (patternLength)*sizeof(CRGB) );
+  }
+
+  // Copy remainder pixels at end of strip if needed
+  if (pDiff != 0) {
+    memmove8( &leds[NUM_LEDS - pDiff], &leds[0], (pDiff)*sizeof(CRGB) );
   }
 
 }//end_CopyPixels
 
-
 //---------------------------------------------------------------
-// Reminder of the memmove8 format:
-//   memmove8( &destination[start position], &source[start position], size of pixel data )
-//---------------------------------------------------------------
-
