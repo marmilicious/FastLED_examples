@@ -21,7 +21,7 @@
 //   going past the end of the strip, otherwise bad things can
 //   happen in memory.  If pixel data is copied to pixels that
 //   don't exist (ie greater then leds[NUM_LEDS-1]) then the
-//   controller can have weird memory issues/lockups/reboots.
+//   controller can have weird memory issues or freeze.
 //
 // Marc Miller, April 2020
 //***************************************************************
@@ -36,7 +36,7 @@
 #define NUM_LEDS 32
 
 CRGB leds[NUM_LEDS];
-uint8_t patternLength = 4;
+uint8_t patternLength = 4;  // starting pattern length
 uint8_t pRepeat = NUM_LEDS / patternLength;
 uint8_t pDiff = NUM_LEDS % patternLength;
 
@@ -65,9 +65,8 @@ void loop() {
 void repeatingPattern() {
   // Every so often pick a new random pattern length
   EVERY_N_SECONDS(7) {
-    //FastLED.clear();  // not needed
-    random16_add_entropy(random16() + random());
-    patternLength = random8(3,11);
+    random16_add_entropy(random16() + analogRead(A0));
+    patternLength = random8(3,13);
     pRepeat = NUM_LEDS / patternLength;
     pDiff = NUM_LEDS % patternLength;
     Serial.print("patternLength: "); Serial.print(patternLength);
