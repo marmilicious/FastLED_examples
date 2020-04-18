@@ -65,7 +65,7 @@ void loop() {
 void repeatingPattern() {
   // Every so often pick a new random pattern length
   EVERY_N_SECONDS(7) {
-    FastLED.clear();
+    //FastLED.clear();  // not needed
     random16_add_entropy(random16() + random());
     patternLength = random8(3,11);
     pRepeat = NUM_LEDS / patternLength;
