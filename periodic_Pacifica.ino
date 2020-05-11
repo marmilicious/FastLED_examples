@@ -4,7 +4,7 @@
 // another 10 minutes.  Global brightness was used to fade the
 // display in and out to make things a bit smoother.
 //
-// It it not very time accurate since it uses millis and does
+// It is not very time accurate since it uses millis and does
 // not account for the fade in/out time.  Use a  RTC (real time
 // clock) if accurate and specific clock times are needed, such
 // as the DS3231.  https://www.adafruit.com/product/3013
@@ -40,7 +40,7 @@ unsigned long currentTime;
 //---------------------------------------------------------------
 void setup() {
   Serial.begin(115200);  // Allows serial monitor output (check baud rate)
-  delay( 2000); // 2 second delay for boot recovery, and a moment of silence
+  delay(2000); // 2 second delay for boot recovery, and a moment of silence
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLOCK_PIN,COLOR_ORDER>(leds, NUM_LEDS)
         .setCorrection( TypicalLEDStrip );
   FastLED.setMaxPowerInVoltsAndMilliamps( 5, 2000);
