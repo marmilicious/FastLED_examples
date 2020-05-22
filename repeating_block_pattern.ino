@@ -27,7 +27,7 @@ uint8_t count;  // used to keep track of what block to light up.
 uint16_t loopStart = 0;
 uint16_t loopEnd = blockSize;
 uint8_t hue;
-
+bool sizeUpdate;
 
 //---------------------------------------------------------------
 void setup() {
@@ -54,7 +54,7 @@ void loop() {
   
   hue = hue + random8(8,17);  // for fun, pick a new color for each block
 
-  EVERY_N_MILLISECONDS(500) {
+  EVERY_N_MILLISECONDS(250) {
     for(uint16_t i = loopStart; i < loopEnd; i++) {
       leds[i] =  CHSV( hue, 255, 255 );
     }
@@ -70,14 +70,21 @@ void loop() {
     // reset count if we have come to the end of the strip 
     if ((count * blockSize) >= NUM_LEDS) {
       count = 0;
+      // Only change the block size when starting over on the strip
+      // and after the minimum time has passed (from timer below).
+      if (sizeUpdate) {
+        blockSize = random8(2,9);  // for fun, pick a new random block size
+        sizeUpdate = false;
+      }
     }
-    
+   
   } //end_every_n
 
 
   EVERY_N_SECONDS(5) {
-    blockSize = random8(2,9);  // for fun, pick a new random block size every 5 seconds
+    sizeUpdate = true;  // trigger size update
   }
+
 
 }//end_main_loop
 
