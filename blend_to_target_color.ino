@@ -39,7 +39,7 @@ void setup() {
 void loop()
 {
   EVERY_N_MILLISECONDS(blendRate){
-    static uint8_t k;
+    static uint8_t k;  // the amount to blend [0-255]
     if ( colorCurrent.h == colorTarget.h ) {  // Check if target has been reached
       colorStart = colorCurrent;
       colorTarget = CHSV(random8(),255,255);  // new target to transition toward
