@@ -66,13 +66,13 @@ void loop() {
 
   static uint8_t blendAmount = 128;  // amount of blend  [range: 0-255]
 
-  leds[pos]                   = nblend(leds[pos],                   blendThisIn4, blendAmount/3);
-  leds[mod8(pos+1, NUM_LEDS)] = nblend(leds[mod8(pos+1, NUM_LEDS)], blendThisIn3, blendAmount/2);
-  leds[mod8(pos+2, NUM_LEDS)] = nblend(leds[mod8(pos+2, NUM_LEDS)], blendThisIn2, blendAmount);
-  leds[mod8(pos+3, NUM_LEDS)] = nblend(leds[mod8(pos+3, NUM_LEDS)], blendThisIn,  blendAmount);
-  leds[mod8(pos+4, NUM_LEDS)] = nblend(leds[mod8(pos+4, NUM_LEDS)], blendThisIn2, blendAmount);
-  leds[mod8(pos+5, NUM_LEDS)] = nblend(leds[mod8(pos+5, NUM_LEDS)], blendThisIn3, blendAmount/2);
-  leds[mod8(pos+6, NUM_LEDS)] = nblend(leds[mod8(pos+6, NUM_LEDS)], blendThisIn4, blendAmount/3);
+  nblend(leds[pos],                   blendThisIn4, blendAmount/3);
+  nblend(leds[mod8(pos+1, NUM_LEDS)], blendThisIn3, blendAmount/2);
+  nblend(leds[mod8(pos+2, NUM_LEDS)], blendThisIn2, blendAmount);
+  nblend(leds[mod8(pos+3, NUM_LEDS)], blendThisIn,  blendAmount);
+  nblend(leds[mod8(pos+4, NUM_LEDS)], blendThisIn2, blendAmount);
+  nblend(leds[mod8(pos+5, NUM_LEDS)], blendThisIn3, blendAmount/2);
+  nblend(leds[mod8(pos+6, NUM_LEDS)], blendThisIn4, blendAmount/3);
 
   posR = beatsin8(5, 0, (NUM_LEDS-1));
   posG = beatsin8(7, 0, (NUM_LEDS-1));
@@ -81,29 +81,29 @@ void loop() {
   CRGB tempColor = CRGB::Red;
   temp[posR] = tempColor;
   tempColor = CRGB::Green;
-  temp[posG] = nblend(temp[posG], tempColor, 128);
+  nblend(temp[posG], tempColor, 128);
   tempColor = CRGB::Blue;
-  temp[posB] = nblend(temp[posB], tempColor, 128);
+  nblend(temp[posB], tempColor, 128);
 
   EVERY_N_MILLISECONDS(2) {
     fadeToBlackBy(temp, NUM_LEDS, 1);  // create fading tail effect
   }
 
   for (uint8_t i = 0; i < NUM_LEDS; i++) {
-    leds[i] = nblend(leds[i], temp[i], 128);
+    nblend(leds[i], temp[i], 128);
   }
 
-  leds[mod8(posR, NUM_LEDS)]   = nblend(leds[mod8(posR, NUM_LEDS)], CRGB::Red, 90);
-  leds[mod8(posR+1, NUM_LEDS)] = nblend(leds[mod8(posR+1, NUM_LEDS)], CRGB::Red, 128);
-  leds[mod8(posR+2, NUM_LEDS)] = nblend(leds[mod8(posR+2, NUM_LEDS)], CRGB::Red, 90);
+  nblend(leds[mod8(posR, NUM_LEDS)], CRGB::Red, 90);
+  nblend(leds[mod8(posR+1, NUM_LEDS)], CRGB::Red, 128);
+  nblend(leds[mod8(posR+2, NUM_LEDS)], CRGB::Red, 90);
 
-  leds[mod8(posG, NUM_LEDS)] =   nblend(leds[mod8(posG, NUM_LEDS)], CRGB::Green, 90);
-  leds[mod8(posG+1, NUM_LEDS)] = nblend(leds[mod8(posG+1, NUM_LEDS)], CRGB::Green, 128);
-  leds[mod8(posG+2, NUM_LEDS)] = nblend(leds[mod8(posG+2, NUM_LEDS)], CRGB::Green, 90);
+  nblend(leds[mod8(posG, NUM_LEDS)], CRGB::Green, 90);
+  nblend(leds[mod8(posG+1, NUM_LEDS)], CRGB::Green, 128);
+  nblend(leds[mod8(posG+2, NUM_LEDS)], CRGB::Green, 90);
 
-  leds[mod8(posB, NUM_LEDS)] =   nblend(leds[mod8(posB, NUM_LEDS)], CRGB::Blue, 90);
-  leds[mod8(posB+1, NUM_LEDS)] = nblend(leds[mod8(posB+1, NUM_LEDS)], CRGB::Blue, 128);
-  leds[mod8(posB+2, NUM_LEDS)] = nblend(leds[mod8(posB+2, NUM_LEDS)], CRGB::Blue, 90);
+  nblend(leds[mod8(posB, NUM_LEDS)], CRGB::Blue, 90);
+  nblend(leds[mod8(posB+1, NUM_LEDS)], CRGB::Blue, 128);
+  nblend(leds[mod8(posB+2, NUM_LEDS)], CRGB::Blue, 90);
 
   FastLED.show();  // update the display
 
