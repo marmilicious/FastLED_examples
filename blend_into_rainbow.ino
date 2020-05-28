@@ -31,14 +31,14 @@ void setup() {
 
 //---------------------------------------------------------------
 void loop() {
-  EVERY_N_MILLISECONDS(60){
+  EVERY_N_MILLISECONDS(100){
     hue++;  //used to cycle through the rainbow
   }
 
   fill_rainbow(leds, NUM_LEDS, hue, 255/NUM_LEDS/4);  //draw part of the rainbow into the strip
   fadeToBlackBy(leds, NUM_LEDS, 70);  //fade the whole strip down some
 
-  EVERY_N_MILLISECONDS(150) {
+  EVERY_N_MILLISECONDS(130) {
     pos++;
     if (pos == NUM_LEDS) { pos = 0; }  //reset to begining
   }
@@ -46,20 +46,20 @@ void loop() {
   EVERY_N_MILLISECONDS(5){
     hue2 = hue2 - 1;  //used to change the moving color
   }
-  CRGB blendThisIn  = CHSV(hue2, 140, 255);  //color to blend into the background
-  CRGB blendThisIn2 = CHSV(hue2, 170, 255);  //color to blend into the background
-  CRGB blendThisIn3 = CHSV(hue2, 210, 255);  //color to blend into the background
-  CRGB blendThisIn4 = CHSV(hue2, 255, 255);  //color to blend into the background
+  CRGB blendThisIn  = CHSV(hue2, 170, 255);  //color to blend into the background
+  CRGB blendThisIn2 = CHSV(hue2, 200, 225);  //color to blend into the background
+  CRGB blendThisIn3 = CHSV(hue2, 230, 200);  //color to blend into the background
+  CRGB blendThisIn4 = CHSV(hue2, 255, 180);  //color to blend into the background
 
   static uint8_t blendAmount = 240;  //amount of blend  [range: 0-255]
 
-  leds[pos]                  = nblend(leds[pos],                  blendThisIn4, blendAmount/3);
-  leds[mod8(pos+1,NUM_LEDS)] = nblend(leds[mod8(pos+1,NUM_LEDS)], blendThisIn3, blendAmount/2);
-  leds[mod8(pos+2,NUM_LEDS)] = nblend(leds[mod8(pos+2,NUM_LEDS)], blendThisIn2, blendAmount);
-  leds[mod8(pos+3,NUM_LEDS)] = nblend(leds[mod8(pos+3,NUM_LEDS)], blendThisIn,  blendAmount);
-  leds[mod8(pos+4,NUM_LEDS)] = nblend(leds[mod8(pos+4,NUM_LEDS)], blendThisIn2, blendAmount);
-  leds[mod8(pos+5,NUM_LEDS)] = nblend(leds[mod8(pos+5,NUM_LEDS)], blendThisIn3, blendAmount/2);
-  leds[mod8(pos+6,NUM_LEDS)] = nblend(leds[mod8(pos+6,NUM_LEDS)], blendThisIn4, blendAmount/3);
+  nblend(leds[pos],                  blendThisIn4, blendAmount/3);
+  nblend(leds[mod8(pos+1,NUM_LEDS)], blendThisIn3, blendAmount/2);
+  nblend(leds[mod8(pos+2,NUM_LEDS)], blendThisIn2, blendAmount);
+  nblend(leds[mod8(pos+3,NUM_LEDS)], blendThisIn,  blendAmount);
+  nblend(leds[mod8(pos+4,NUM_LEDS)], blendThisIn2, blendAmount);
+  nblend(leds[mod8(pos+5,NUM_LEDS)], blendThisIn3, blendAmount/2);
+  nblend(leds[mod8(pos+6,NUM_LEDS)], blendThisIn4, blendAmount/3);
 
   FastLED.show();  //update the display
 
@@ -68,4 +68,3 @@ void loop() {
   }
 
 }//end_main_loop
-
