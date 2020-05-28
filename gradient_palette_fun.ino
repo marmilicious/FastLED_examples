@@ -184,7 +184,7 @@ void loop() {
 
     // Assign pixel data to three consecutive pixels
     randomColor = ColorFromPalette( gPal[gIndex], randomIndex ,255, LINEARBLEND);
-    leds[randomPixel] = nblend( leds[randomPixel], randomColor, 140);
+    nblend( leds[randomPixel], randomColor, 140);
     
     randomColor = ColorFromPalette( gPal[gIndex], randomIndex+1 ,255, LINEARBLEND);
     leds[randomPixel+1] = blend( leds[randomPixel+1], randomColor, 255);
