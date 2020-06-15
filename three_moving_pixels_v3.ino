@@ -45,8 +45,8 @@ void loop() {  // START MAIN LOOP
   
     // Show the pixels
     FastLED.show();
-    //delay(holdTime);  // Delay for a bit.
-   
+
+    
     // Set pixels back to Black for the next loop around.
     leds[positionRed] = CRGB::Black;
     leds[positionWhite] = CRGB::Black;
