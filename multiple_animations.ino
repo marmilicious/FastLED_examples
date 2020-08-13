@@ -10,10 +10,13 @@
 // Animation C [ledsC] is running a scanner/cylon type effect.
 // Animation D [ledsD] is lighting up random pixels.
 //
-// Note that there is only one FastLED.show() call in the program.
+// Note that there only needs to be one FastLED.show() call at the
+// bottom of the main loop.
 //
 //
 // Marc Miller,  April 2019
+//               Aug 2020 - Made NUM_LEDS the sum of numA-numD
+//                          Added some extra info at bottom
 /*********************************************************************/
 
 #include "FastLED.h"
@@ -23,13 +26,16 @@
 #define COLOR_ORDER GRB
 #define MASTER_BRIGHTNESS 255
 
-#define NUM_LEDS 32
-
-//Note: numA thru numD values must add up to NUM_LEDS
 #define numA 5    //pixels 0-4
 #define numB 3    //pixels 5-7
 #define numC 16   //pixels 8-23
 #define numD 8    //pixels 24-31
+
+// Note: numA thru numD values will add up to NUM_LEDS, the total
+// number of pixels in the whole display, which is 32 in this exmaple.
+
+#define NUM_LEDS (numA + numB + numC + numD)
+
 
 CRGB leds[NUM_LEDS];  //what actually gets displayed
 CRGB ledsA[numA];     //numA thru numD are "working" arrays
@@ -125,3 +131,33 @@ void loop() {
 
 }//end_main_loop
 
+
+/*
+Additonal note:
+The entire led "strip" (all sections) could also be
+operated on by simply doing stuff directly to the
+leds array.  Such as:
+
+void loop {
+  // Create one giant rainbow across the whole display
+  fill_rainbow(leds, NUM_LEDS, millis()/20);
+  FastLED.show();
+}
+
+
+OR...
+
+void loop {
+  // Fill the whole display with colors from a palette
+  EVERY_N_MILLISECONDS(50) {
+    static uint8_t colorIndex;
+    for( int i = 0; i < NUM_LEDS; i++) {
+      leds[i] = ColorFromPalette( PartyColors_p, colorIndex, 255, LINEARBLEND);
+      colorIndex += 3;
+    }
+    FastLED.show();
+  }
+}
+
+  
+*/
