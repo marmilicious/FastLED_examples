@@ -44,21 +44,26 @@ void loop() {
     P = !P;  // toggle P between 0 and 1
     
     if (P) {
-      timingObj.setPeriod(1200);  // time to display solid before fading
+      timingObj.setPeriod(2000);  // time to display solid before fading
       fill_solid(leds, NUM_LEDS, CHSV(gHue, 255, 255));
       FastLED.show();
       Serial.print("fill_solid, hue: "); Serial.println(gHue);
     } else {
-      timingObj.setPeriod(1200);
+      timingObj.setPeriod(5000);
       Serial.println("Fading out now...\n");
       gHue = gHue + 42;  // set a new hue
     }
-  }
+
+  }  // end of every_n variable timing
+
 
   if (P == 0) {
-    fadeToBlackBy(leds, NUM_LEDS, 2);  // fade out
-    FastLED.show();
+    EVERY_N_MILLISECONDS(15) {
+      fadeToBlackBy(leds, NUM_LEDS, 1);  // fade out
+      FastLED.show();
+    }
   }
+
 
 }  // end main loop
 
