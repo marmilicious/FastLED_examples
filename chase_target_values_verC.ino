@@ -19,7 +19,7 @@
 #define CLOCK_PIN 13
 #define NUM_LEDS 32        // *Update to the number of pixels in your strip.
 
-#define MASTER_BRIGHTNESS 140
+#define MASTER_BRIGHTNESS 180
 
 CRGB leds[NUM_LEDS];
 CHSV leds_vu[NUM_LEDS];  // FastLED array using HSV.
@@ -77,7 +77,7 @@ void loop() {
         }
       }
       else {  // greater then the target, so fade down.
-        delta = ((leds_vu[i].value - target[i]) / 8) + 1;  // +1 so delta is always at least 1.
+        delta = ((leds_vu[i].value - target[i]) / 12) + 1;  // +1 so delta is always at least 1.
         if (leds_vu[i].value - delta <= target[i]){
           leds_vu[i].value = target[i];  // limit to target.
         }
@@ -91,6 +91,7 @@ void loop() {
       int c_hue = constrain(leds_vu[i].value,lowCutoff,highCutoff);
       leds_vu[i].hue = map(c_hue, lowCutoff, highCutoff, hue_low, hue_high);
                     // map(valueIn, fromLow,   fromHigh,   toLow,   toHigh)
+
   
       // Set saturation.
       leds_vu[i].saturation = 255;
@@ -105,7 +106,7 @@ void loop() {
   }//end EVERY_N*
 
   // Continuosly fade target to zero.
-  EVERY_N_MILLISECONDS(20) {
+  EVERY_N_MILLISECONDS(70) {
     for (int j=0; j < NUM_LEDS; j++){
       if (target[j] > lowCutoff){
         target[j] -= 1;  // Fade by this amount.
@@ -126,7 +127,7 @@ void loop() {
 
   FastLED.show();  // Display the leds[] array.
 
-  EVERY_N_SECONDS(10) {  // Pick a new color combination choice (ccc).
+  EVERY_N_SECONDS(20) {  // Pick a new color combination choice (ccc).
     ccc =  random(4);
     if (ccc == 0) {
       hue_high = 0;  // red for high values
@@ -148,4 +149,3 @@ void loop() {
   }//end EVERY_N* ccc
 
 }//end main loop
-
