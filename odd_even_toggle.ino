@@ -76,10 +76,24 @@ void loop() {
 
 
 //---------------------------------------------------------------
-// Here's another way to check if something is odd or even:
-//
-//  if ( mod8(value,2) == 0) {
-//    // is even number
-//  } else {
-//    // is odd number
-//  }
+/* Different ways to check if a value is odd or even:
+
+  if ( value % 2 == 0) {
+    // is even number
+  } else {
+    // is odd number
+  }
+  
+  if ( mod8(value,2) == 0) {
+    // is even number
+  } else {
+    // is odd number
+  }
+  
+  if ((value & 0x01) == 0) {
+    // is even number
+  } else {
+    // is odd number
+  }
+
+*/
