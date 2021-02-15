@@ -75,7 +75,8 @@ void loop() {
     }
 
     FastLED.show();
-
+  }
+  
 } // end_main_loop
 
 
