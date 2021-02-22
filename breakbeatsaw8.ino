@@ -14,7 +14,7 @@ Usage:  breakbeatsaw8(rate, low, high, delay)
 If no delay value is added on the end then the delay will be 0.
 
 
-Marc Miller, Feb 2020
+Marc Miller, Feb 2021
 ****************************************************************/
 
 #define USE_GET_MILLISECOND_TIMER 1  // needed for breakbeatsaw8
