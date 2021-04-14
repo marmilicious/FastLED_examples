@@ -16,11 +16,11 @@ signal from the machine could be a digital logic signal, a PWM
 signal, or an analog signal.  This example is setup to read a
 logic signal (which will change the display of the first pixel
 only), and also read an analog signal (which will change the
-display of the reminder of the pixels).
+display of the remainder of the pixels).
 
 
 The FastLED library is used for ease of programming the addressable
-LEDs.  Here are links to the FastLED wiki, code, and G+ community:
+LEDs.  Here are links to the FastLED wiki, code, and reddit group:
   https://github.com/FastLED/FastLED/wiki/Frequently-Asked-Questions
   https://github.com/FastLED/FastLED
   http://fastled.io/+
