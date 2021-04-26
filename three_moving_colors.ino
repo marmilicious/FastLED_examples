@@ -1,8 +1,11 @@
 //***************************************************************
 // Three moving colors.
+//     Uses modulo, %, to make pixel position "loop" around and
+//     stay in valid pixel range.
 //
 // Marc Miller,  Jan. 2019
-//  April 2019 - Updated to use EVERY_N instead of delay().
+//     Apr. 2019 - updated to use EVERY_N instead of delay()
+//     Apr. 2021 - cleaned up some duplicate code
 //***************************************************************
 
 #include "FastLED.h"
@@ -14,12 +17,13 @@
 #define MASTER_BRIGHTNESS 64
 CRGB leds[NUM_LEDS];
 
-int16_t positionRed = NUM_LEDS*2/3;  // Set initial start position of Red
-int16_t positionWhite = NUM_LEDS/3;  // Set initial start position of White
-int16_t positionBlue = 0;  // Set initial start position of Blue
+// Set initial start position of each color
+int16_t positionA = NUM_LEDS*2/3;
+int16_t positionB = NUM_LEDS/3;
+int16_t positionC = 0;
 
-#define holdTime 120  // Milliseconds to hold position before advancing
-int8_t delta = 1;  // 1 or -1.  Sets forward or backwards direction.
+const uint16_t holdTime = 120;  // Adjusts speed of travel
+int8_t delta = 1;  // 1 or -1.  Sets travel direction
 
 
 //---------------------------------------------------------------
@@ -33,22 +37,24 @@ void setup() {
 
 //---------------------------------------------------------------
 void loop() {
-
+  
   EVERY_N_MILLISECONDS(holdTime) {
 
-    //set position and color of pixels
-    leds[(positionRed + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Red;
-    leds[(positionWhite + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Grey;
-    leds[(positionBlue + delta + NUM_LEDS) % NUM_LEDS] = CRGB::Blue;
+    // Fading tail effect.  Comment out for solid colors
+    fadeToBlackBy( leds, NUM_LEDS, 100);
+    
+    // assign pixel colors
+    leds[positionA] = CRGB::Red;
+    leds[positionB] = CRGB::Grey;  // Using grey so not as bright
+    leds[positionC] = CRGB::Blue;
   
-    FastLED.show();  //show the pixels
+    FastLED.show();  // Show the pixels
    
-    //advance position based on delta, and rollover if needed.
-    positionRed = ((positionRed + delta + NUM_LEDS) % NUM_LEDS);
-    positionWhite = ((positionWhite + delta + NUM_LEDS) % NUM_LEDS);
-    positionBlue = ((positionBlue + delta + NUM_LEDS) % NUM_LEDS);
+    // Advance position based on delta, and rollover if needed.
+    positionA = ((positionA + delta + NUM_LEDS) % NUM_LEDS);
+    positionB = ((positionB + delta + NUM_LEDS) % NUM_LEDS);
+    positionC = ((positionC + delta + NUM_LEDS) % NUM_LEDS);
 
-  }//end_every_n
-
-}//end_main_loop
-
+  }//end every_n
+  
+}
