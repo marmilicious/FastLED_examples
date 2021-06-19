@@ -43,10 +43,10 @@ void setup() {
 void loop() {
 
   EVERY_N_MILLISECONDS(50) {
-    fadeToBlackBy( leds, NUM_LEDS, 1);  // slowly fade out pixels
+    fadeToBlackBy( leds, NUM_LEDS, 7);  // slowly fade out pixels
   }
 
-  EVERY_N_MILLISECONDS(1000) {
+  EVERY_N_MILLISECONDS(500) {
     static uint8_t offset;
     static uint8_t shift;
     
