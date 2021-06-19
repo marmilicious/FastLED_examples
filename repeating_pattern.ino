@@ -8,6 +8,7 @@
 //
 // Marc Miller, Nov 2015
 //              May 2020 - replaced all delays with EVERY_N
+//              June 2021 - renamed some variables
 //***************************************************************
 
 #include "FastLED.h"
@@ -47,24 +48,24 @@ void loop() {
   }
 
   EVERY_N_MILLISECONDS(500) {
-    static uint8_t offset;
-    static uint8_t shift;
+    static uint8_t hueOffset;
+    static uint8_t hueShift;
     
-    //hue = ((255 / repeatEvery) * offset) + shift;  // Change the hue for each pixel set.
-    hue = (20 * offset) + shift;  // Change the hue for each pixel set.
+    //hue = ((255 / repeatEvery) * hueOffset) + hueShift;  // Change the hue for each pixel set.
+    hue = (20 * hueOffset) + hueShift;  // Change the hue for each pixel set.
     
     for (uint16_t x = 0; x < numberOfRepeats + 1; x++) {
       static uint16_t i;
-      i = (repeatEvery * (x - 1)) + repeatEvery + offset;  // The pixel number to draw
+      i = (repeatEvery * (x - 1)) + repeatEvery + hueOffset;  // The pixel number to draw
       if (i < NUM_LEDS) {  // Only draw pixel numbers within NUM_LEDS
         leds[i] = CHSV(hue,180,255);
       }
     }
 
-    offset++;
-    if (offset == repeatEvery) {
-      offset = 0;
-      shift = shift + random8(55,77);
+    hueOffset++;
+    if (hueOffset == repeatEvery) {
+      hueOffset = 0;
+      hueShift = hueShift + random8(55,77);
     }
 
   } //end_every_n
@@ -73,4 +74,3 @@ void loop() {
 
 
 } //end_main_loop
-
