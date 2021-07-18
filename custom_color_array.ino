@@ -51,3 +51,23 @@ void loop() {
 }//end_main_loop
 
 
+//---------------------------------------------------------------
+/*
+Not used here in this code, but here are examles of how you can
+assign custom color names (using RGB, HSV, web names, or hex)
+which can later be used in your code.
+
+CRGB myColorA (0,128,128);
+CHSV myColorB (160,128,255);
+
+CRGB myColorC = CHSV(42,128,255);
+CRGB myColorD = CRGB::Purple;
+CRGB myColorE = 0xE1A024;
+
+#define myColorF CRGB(128,0,255)
+#define myColorG 0x902C02
+
+Then in your code you can do:
+leds[i] = myColorA;
+
+*/
