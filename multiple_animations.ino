@@ -37,8 +37,8 @@
 #define NUM_LEDS (numA + numB + numC + numD)
 
 
-CRGB leds[NUM_LEDS];  //what actually gets displayed
-CRGB ledsA[numA];     //numA thru numD are "working" arrays
+CRGB leds[NUM_LEDS];  // The array that actually gets displayed
+CRGB ledsA[numA];     // ledsA thru ledsD are "working" arrays
 CRGB ledsB[numB];
 CRGB ledsC[numC];
 CRGB ledsD[numD];
