@@ -2,7 +2,7 @@
 // Blink some pixels on and off.
 // A variety of different ways to blink individual pixels.
 // Something you might use for a beacon or indicator light or
-// put in a spaceship model kit.
+// put in a scale model kit.
 //
 // Some are more straight forward then others.  Just having fun
 // making up a variety of ways to blink a pixel.
