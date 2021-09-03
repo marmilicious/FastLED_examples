@@ -11,7 +11,7 @@
 // but I have not looked around for other lightning strike
 // code which might give an even better visual effect.
 //
-// This was only tested this on a small 32 pixel strip. I have
+// This was only tested on a small 32 pixel strip. I have
 // no idea how it would look on really a long strip.
 //
 // NOTE: This potentially flashes lots of pixels at full White,
