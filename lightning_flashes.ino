@@ -12,7 +12,7 @@
 // code which might give an even better visual effect.
 //
 // This was only tested on a small 32 pixel strip. I have
-// no idea how it would look on really a long strip.
+// no idea how it would look on a really long strip.
 //
 // NOTE: This potentially flashes lots of pixels at full White,
 // so make sure your power supply can handle the needed Amps,
