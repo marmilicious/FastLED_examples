@@ -31,7 +31,7 @@ bool toggleButton = 0;    //toggled On/Off with each button press
 //   https://github.com/JChristensen/JC_Button
 #include "JC_Button.h"       //include button library
 const uint8_t buttonPin = 4;  //set digital pin connected to momentary push button
-Button myButton(buttonPin, true, true, 50);  //declare the button
+Button myButton(buttonPin, 50, true, true);  //declare the button  (pin, dbTime, puEnable, invert)
 
 
 //---------------------------------------------------------------
