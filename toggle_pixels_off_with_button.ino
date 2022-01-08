@@ -25,7 +25,7 @@
 
 // Set the digital pin for the pushbutton, and declare the button
 const uint8_t ButtonPin = 4;
-Button OnOff_Button(ButtonPin, true, true, 100);
+Button OnOff_Button(ButtonPin, 100, true, true);  // (pin, dbTime, puEnable, invert)
 
 
 //---------------------------------------------------------------
