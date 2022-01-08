@@ -30,7 +30,7 @@ CRGB leds[NUM_LEDS];
 //   https://github.com/JChristensen/JC_Button
 #include "JC_Button.h"    // Include Button library
 const uint8_t buttonPin = 4;  // Set digital pin used with debounced pushbutton
-Button myButton(buttonPin, true, true, 50);  // Declare the button
+Button myButton(buttonPin, 50, true, true);  // Declare the button  (pin, dbTime, puEnable, invert)
 
 
 //---------------------------------------------------------------
