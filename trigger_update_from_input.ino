@@ -25,7 +25,7 @@ CRGB leds[NUM_LEDS];
 // use JChristensen's Button library 
 #include "JC_Button.h"  
 const uint8_t buttonPin = 4;  // digital pin used for debounced push button
-Button myButton(buttonPin, true, true, 40);  // declare the button
+Button myButton(buttonPin, 40, true, true);  // declare the button  (pin, dbTime, puEnable, invert)
 
 
 uint8_t pos = NUM_LEDS-1;  // set initial position
