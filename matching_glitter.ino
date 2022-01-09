@@ -91,7 +91,7 @@ void addMatchingGlitter_3( fract8 chanceOfGlitter)
     uint16_t i = random16(NUM_LEDS);
     CRGB color = leds[i];
     leds[i] += color.nscale8_video(255);
-    // Can apply a second or third time for even brigter effect
+    // Can apply a second or third time for even brighter effect
     //leds[i] += color.nscale8_video(255);
     //leds[i] += color.nscale8_video(255);
   }
