@@ -92,7 +92,8 @@ void addMatchingGlitter_3( fract8 chanceOfGlitter)
     CRGB color = leds[i];
     leds[i] += color.nscale8_video(255);
     // Can apply a second or third time for even brigter effect
-    //leds[randomPixel] += color.nscale8_video(255);
+    //leds[i] += color.nscale8_video(255);
+    //leds[i] += color.nscale8_video(255);
   }
 }
 
