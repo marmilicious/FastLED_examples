@@ -1,5 +1,5 @@
 //***************************************************************
-// Example to toggles some pixels on or off using a button.
+// Toggles some pixels on or off using a button.
 // The "off" pixels are still powered and reciving data, but
 // are simply set to display black when "off".
 //
