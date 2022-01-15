@@ -61,7 +61,7 @@ void loop() {
     fill_rainbow_hsv(&leds[0], 8, hue, sat, brightness, hueStep);
 
   
-    // use basic cheap and fast gamma correction, basically gamma 2.0
+    // basic cheap and fast gamma like correction, similar to gamma 2.0
     fill_rainbow_hsv(&leds[8], 8, hue, sat, brightness, hueStep);
     for (uint8_t i = 8; i < 16; i++) {
       leds[i].r = dim8_video(leds[i].r);
