@@ -10,6 +10,9 @@
 // Be aware that pixel numbers are hard coded in these examples.
 // Change as needed for your setup.
 //
+// Also note: There is only one FastLED.show() used in the main
+// loop. That's the power of using EVERY_N_MILLISECONDS (ie. timers)
+//
 // Marc Miller, Aug 2021
 //***************************************************************
 
