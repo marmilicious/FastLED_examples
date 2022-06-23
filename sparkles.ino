@@ -4,7 +4,7 @@
 // https://www.reddit.com/r/FastLED/comments/vidjkx/i_made_an_extremely_lofi_fireworks_code_from_an/
 //
 // Changing the three different variables changes the look quite
-// a bit. Play around a bit to see what you like.
+// a bit. Play around to see what you like.
 // 
 //
 // Marc Miller, June 2022
