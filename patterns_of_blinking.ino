@@ -31,23 +31,23 @@ uint16_t patternDelay = 1000;  //time to display each color [milliseconds]
 
 
 // Custom colors can be added like this:
-long colorA = 0x00FF7F;  //using HEX
+long colorA = 0x00FF7F;  //using HEX (light greenish blue color)
 long black =  0x000000;
 
-CRGB temp = CRGB(200,64,200);  //using RGB
+CRGB temp = CRGB(200,64,200);  //using RGB (pinkish color)
 long colorB = ((long)temp.r << 16L) | ((long)temp.g << 8L) | (long)temp.b;
 
-CRGB temp2 = CHSV(140,160,255);  //using HSV
+CRGB temp2 = CHSV(140,160,255);  //using HSV (dull blueish color)
 long colorC = ((long)temp2.r << 16L) | ((long)temp2.g << 8L) | (long)temp2.b;
 
 
-// *** ADD patterns here, specify color order (includeing black). ***
+// *** ADD patterns here, specify color order (including black). ***
 // Colors can be listed multiple times for a longer display (for example,
 // as green in pattern p2).  Use black to turn a pixel off for a count.
 long p0[] = {colorA, colorB};
 long p1[] = {CRGB::Red, colorC, black};
 long p2[] = {CRGB::Green, CRGB::Green, CRGB::Green, CRGB::Yellow};
-long p3[] = {CRGB::Purple, CRGB::Red, CRGB::Purple, black, CRGB::Blue};
+long p3[] = {CRGB::Purple, CRGB::Red, CRGB::Purple, black, CRGB::Blue, CRGB::Blue, black};
 
 
 // *** ADD each p# pattern above to this array. ***
