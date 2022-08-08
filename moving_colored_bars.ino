@@ -1,13 +1,15 @@
 //***************************************************************
 // Moving colored bars
-// Original code by Richard Bailey,  Feb. 2017
+// Originally based on code by Richard Bailey, Feb. 2017.
 //
-// Modified to allow a few other options (which might be
-// useful for Christmas!)
-// You'll probably need to adjust stuff for longer strips.  I only
-// tested with a tiny 32 pixel setup.
+// Create a color pattern to be scrolled and repeated down the
+// strip. The rate of travel and length of a colored bar can be
+// specified. Play with different lengths for different looks.
+//
 //
 // Marc Miller, Dec 2017
+//              Aug 2022 - redone to (hopefully) fix a bug,
+//                         renamed variables and simplified code
 //***************************************************************
 
 #include "FastLED.h"
@@ -20,37 +22,34 @@
 CRGBArray<NUM_LEDS> leds;
 
 
-#define FRAME_DELAY 80  //How fast to move (milliseconds)
+// Controls how fast to travel down the strip
+#define FRAME_DELAY 80  // [milliseconds]
 
 
-/* Specify your colors and the order of those colors.
-   You can create a longer section of a single color by
-   listing it several times (such as green in this first
-   example)
-   Note: I used Grey instead of White here so it's not
-   as bright compared to the other colors.
-*/
-long colorPallet[] = {CRGB::Green,CRGB::Grey,CRGB::Red,CRGB::Grey,CRGB::Red,CRGB::Grey,CRGB::Red,CRGB::Green,CRGB::Green,CRGB::Green};
-//long colorPallet[] = {CRGB::Black,CRGB::Green,CRGB::Red};
-//long colorPallet[] = {CRGB::Green,CRGB::Red};
-//long colorPallet[] = {CRGB::Black,CRGB::Blue,CRGB::Yellow,CRGB::Purple};  //Black can be used too of course.
+// Specify the colors in the order you would like. You can
+// create a longer section of color by listing it several
+// times (such as Green in the second example here).
+// Black can also be used to make a gap between colors.
+//
+long colorPalette[] = {CRGB::Green,CRGB::Cyan,CRGB::Purple,CRGB::Cyan};
+//long colorPalette[] = {CRGB::Green,CRGB::Green,CRGB::Orange,CRGB::Red};
+//long colorPalette[] = {CRGB::Black,CRGB::Blue,CRGB::Yellow};
+//long colorPalette[] = {CRGB::Green,CRGB::Grey,CRGB::Red,CRGB::Grey,CRGB::Red,CRGB::Grey};
+//long colorPalette[] = {CRGB::Red,CRGB::White,CRGB::Blue,CRGB::Black,CRGB::Black};
+
+// This auto calculates the number of colored bars you specified.
+const int numberofColors = sizeof(colorPalette)/sizeof(int);  
 
 
-const int numberofColors = sizeof(colorPallet)/sizeof(int);  //Auto calculate your specified number of color bars
+// Length of a color bar 
+int colorBarLength = 5;  // [number of pixels]
+//int colorBarLength = NUM_LEDS-1;  // The full strip length per color
+//int colorBarLength = NUM_LEDS/2;  // Half the strip length per color
+//int colorBarLength = NUM_LEDS/numberofColors;  // Strip length divided by number of colors
 
 
-/* Play with setting the colorBarLength in different ways for slightly different effects. */
-int colorBarLength = 10;  //Some specific length
-//int colorBarLength = NUM_LEDS-1;  //The full strip length per color
-//int colorBarLength = NUM_LEDS/2;  //Half the strip length per color
-//int colorBarLength = NUM_LEDS/numberofColors;  //Strip length divided by number of colors
-
-
-
-int frameCounter;  //These don't need to be changed
-int palletPosition;
-int colorBarPosition = 1;
-bool clearLEDS = false;
+int paletteIndex = 0;
+int barPosition = 1;
 
 
 //---------------------------------------------------------------
@@ -62,6 +61,8 @@ void setup() {
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
   FastLED.show();
+  Serial.print("Number of colors: "); Serial.println(numberofColors);
+  Serial.print("colorBarLength: "); Serial.println(colorBarLength);
   Serial.println("Setup done. \n");
 }
 
@@ -70,48 +71,37 @@ void setup() {
 void loop() {
 
   EVERY_N_MILLISECONDS(FRAME_DELAY) {
+    //Serial.print("barPosition: "); Serial.print(barPosition);
+    //Serial.print("\tpaletteIndex: "); Serial.println(paletteIndex);
 
-    for (int x=0; x<NUM_LEDS-1; x++)
+    // move current pixel data over one position
+    for (uint16_t x = 0; x < NUM_LEDS-1; x++)
     {
       leds[x] = leds[x+1];
     }
-    if (clearLEDS)
-    {
-      leds[NUM_LEDS-1] = colorPallet[palletPosition];
-    }
-    if ((colorBarPosition <= colorBarLength) && !clearLEDS)
-    {
-      leds[NUM_LEDS-1] = colorPallet[palletPosition];
-      colorBarPosition++;
-    }
-    if ((palletPosition == numberofColors-1) && (colorBarPosition > colorBarLength) && !clearLEDS)
-    {
-      leds[NUM_LEDS-1]=colorPallet[palletPosition];
-      palletPosition = 0;
-      colorBarPosition = 1;
-      clearLEDS= true;
-    }
-    if ((colorBarPosition > colorBarLength) && !clearLEDS)
-    {
-      colorBarPosition = 1;
-      palletPosition = palletPosition+1;
-    }
-    //if (clearLEDS && !leds(0,NUM_LEDS-1))  //Not using this for of test any more
-    if (clearLEDS && leds[0]==(CRGB)(colorPallet[numberofColors-1]))  //restarts as soon as last color makes it past the end
-    {
-      //Serial.print( leds[0].r );  Serial.print("\t"), Serial.print( leds[0].g ); Serial.print("\t"), Serial.println( leds[0].b );  //Print out RGB colors it's triggering on
-      clearLEDS = false;
-    }
 
+    // assign new data at end of line
+    leds[NUM_LEDS-1] = colorPalette[paletteIndex];
+
+    barPosition++;
+
+    // check and reset things as needed
+    if ( (barPosition > colorBarLength) && (paletteIndex == numberofColors-1) )
+    {
+      barPosition = 1;
+      //Serial.println("  barPosition reset");
+      paletteIndex = 0;
+      //Serial.println("  paletteIndex reset");
+    }
+    else if (barPosition > colorBarLength)
+    {
+      barPosition = 1;
+      //Serial.println("  barPosition reset");
+      paletteIndex = paletteIndex + 1;
+    }
+    
   }//end_EVERY_N
 
   FastLED.show();
 
 }//end_main_loop
-
-
-//---------------------------------------------------------------
-//TODO:
-//  Add option to run in reverse direction
-//  Make some hot chocolate
-
