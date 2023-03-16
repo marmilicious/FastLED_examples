@@ -38,7 +38,7 @@ long colorPalette[] = {CRGB::Green,CRGB::Cyan,CRGB::Purple,CRGB::Cyan};
 //long colorPalette[] = {CRGB::Red,CRGB::White,CRGB::Blue,CRGB::Black,CRGB::Black};
 
 // This auto calculates the number of colored bars you specified.
-const int numberofColors = sizeof(colorPalette)/sizeof(int);  
+const int numberofColors = sizeof(colorPalette)/sizeof(long);  
 
 
 // Length of a color bar 
