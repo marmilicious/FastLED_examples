@@ -1,6 +1,6 @@
 // This example shows how to reset the one of FastLED's timers.
 //
-// I have set this exampe up so each time a button is pressed the
+// I have set this example up so each time a button is pressed the
 // timer is reset. Open the serial monitor to follow some output.
 //
 // Marc Miller, March 2023
