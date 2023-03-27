@@ -17,6 +17,9 @@ CRGB leds[NUM_LEDS];
 uint16_t tTime = 10;  // seconds to next trigger.  Get's randomized.
 uint16_t cTime = 10;  // Count after trigger for n seconds
 uint16_t rTime = 3;  // Reset after n seconds
+static CEveryNSeconds triggerTimer(tTime);
+static CEveryNSeconds countTimer(cTime);
+static CEveryNSeconds resetTimer(rTime);
 
 boolean timerTriggered = 0;  // Event triggered? [1=true, 0=false]
 boolean counterTriggered = 0;  // Time to count?
@@ -37,9 +40,6 @@ void setup(){
 
 //------------------------------------------------------------------
 void loop(){
-  static CEveryNSeconds triggerTimer(tTime);
-  static CEveryNSeconds countTimer(cTime);
-  static CEveryNSeconds resetTimer(rTime);
 
   if (firstRun == 1){
     EVERY_N_MILLISECONDS(300){
