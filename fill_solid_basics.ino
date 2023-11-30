@@ -73,7 +73,7 @@ void loop() {
 
   /* The second way to use fill_solid to fill a range of pixels */
 
-  // Fill 8 pixels starting at leds[17]
+  // Fill 8 pixels starting at leds[16]
   fill_solid( &(leds[16]), 8, CRGB::Grey );
 
 
