@@ -11,6 +11,7 @@
 // a potentiometer, distance sensor, button, sine wave, random, etc.
 //
 // Marc Miller, Nov 2018
+//              Dec 2023 - updated color timing, fade rates
 //***************************************************************
 
 #include "FastLED.h"
@@ -50,8 +51,8 @@ void setup() {
 void loop() {
 
   //Comment or un-comment one of these examples to try each out.
-  cylon_cc1();
-  //cylon_cc2();
+  //cylon_cc1();
+  cylon_cc2();
   
   FastLED.show();
   
@@ -84,12 +85,12 @@ void cylon_cc1() {
   
   static uint8_t delta = 1;  //direction of travel
 
-  EVERY_N_MILLISECONDS(200) {
+  EVERY_N_MILLISECONDS(450) {
     colorChange(0);  //set next color
   }
 
   EVERY_N_MILLISECONDS(60) {
-    fadeToBlackBy(leds, NUM_LEDS, 5);
+    fadeToBlackBy(leds, NUM_LEDS, 15);
     leds[pos] = colorArray[colorChoice];
     pos = pos + delta;
     if (pos == NUM_LEDS-1) { delta = -1; }  //change direction
@@ -106,7 +107,7 @@ void cylon_cc2() {
   static uint8_t delta = 1;  //direction of travel
 
   EVERY_N_MILLISECONDS(60) {
-    fadeToBlackBy(leds, NUM_LEDS, 200);
+    fadeToBlackBy(leds, NUM_LEDS, 15);
     leds[pos] = colorArray[colorChoice];
     pos = pos + delta;
     if (pos == NUM_LEDS-1) {
@@ -120,5 +121,4 @@ void cylon_cc2() {
   }
 
 }//end_cylon_cc2
-
 
