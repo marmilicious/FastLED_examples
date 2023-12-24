@@ -76,7 +76,7 @@ void loop() {
   
 
     // use FastLED's napplyGamma_video
-    // see info here:  https://fastled.io/docs/3.1/colorutils_8h_source.html
+    // see info here:  https://fastled.io/docs/colorutils_8h_source.html (and search for napplyGamma)
     fill_rainbow_hsv(&leds[24], 8, hue, sat, brightness, hueStep);
     napplyGamma_video(&leds[24], 8, 2.5);
   
