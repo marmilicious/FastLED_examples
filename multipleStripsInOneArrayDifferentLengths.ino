@@ -12,7 +12,7 @@ Marc Miller,  Aug 2020
 
 #include <FastLED.h>
 
-#define NUM_STRIPS 3
+// #define NUM_STRIPS 3  // Not used in this modified version
 #define NUM_LEDS_A 10
 #define NUM_LEDS_B 20
 #define NUM_LEDS_C 30
