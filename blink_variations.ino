@@ -194,7 +194,7 @@ void loop() {
     }
     // leds8 is the original blink pattern
     // leds9 is an interesting alternate version
-    if (blinkState * blinkGate1 * blinkGate2) {
+    if (blinkState && blinkGate1 && blinkGate2) {
       leds[8] = CHSV(0,230,200);  // The original red blink
       leds[9] = CRGB::Black;
     } else {
