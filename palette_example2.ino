@@ -79,7 +79,7 @@ void newGradientPalette(){
   xyz[14] = rgb.g;
   xyz[15] = rgb.b;
 
-  currentPalette = xyz;
+  currentPalette.loadDynamicGradientPalette(xyz);  // Updated from using:  currentPalette = xyz; for better microcontroller compatibility (April 2024)
 
   for (int p = 0; p < NUM_LEDS; p++) {
     leds[p] = ColorFromPalette(currentPalette, p*255/(NUM_LEDS-1), BRIGHTNESS, NOBLEND);
