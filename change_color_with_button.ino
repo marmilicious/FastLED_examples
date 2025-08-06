@@ -7,14 +7,15 @@
 // http://i.imgur.com/hOgQwjX.jpg
 //
 // Marc Miller, Jan 2019
+//              Aug 2025 - Updated formatting for JC button library
 //***************************************************************
 
 
 //---------------------------------------------------------------
 // This sketch uses JChristensen's Button Library from:
-//   https://github.com/JChristensen/Button
+//   https://github.com/JChristensen/JC_Button
 //
-#include "Button.h"    // Include the Button library
+#include <JC_Button.h>    // Include the button library
 
 // Set the digital pin for the pushbutton, and declare the button
 const uint8_t ButtonPin = 4;
@@ -42,6 +43,8 @@ void setup() {
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
+
+  Push_Button.begin();
 }
 
 
@@ -75,4 +78,3 @@ void readbutton() {
     }
   }
 }//end_readbutton
-
